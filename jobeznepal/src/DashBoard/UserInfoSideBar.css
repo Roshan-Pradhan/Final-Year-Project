@@ -1,0 +1,68 @@
+
+
+.link{
+    padding: 10px;
+    color: black;
+    font-weight: 500;
+}
+.link:hover{
+    color: #F13C20;
+}
+.link:visited{
+  background-color: #F13C20;
+}
+.hrLines{
+    width: 100%;
+    position: relative;
+    text-align: center;
+  }
+  .hrLines:before{
+    content:" ";
+    height: 2px;
+    width: 40%;
+    background: red;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 20px;
+  }
+  
+  .hrLines:after{
+    content:" ";
+    height: 2px;
+    width: 40%;
+    background: red;
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+  }
+  .userinfosideForm{
+    padding: 20px;
+  }
+
+  .customAutoForm{
+    display: grid;
+    grid-template-columns: auto auto auto ;
+    row-gap: 20px;
+    justify-content: space-around;
+    align-items: center;
+
+  }
+  .customFieldSet{
+    height: 50px;
+    width: 350px;
+ }
+
+ .editButton{
+  display: flex;
+  padding: 8px 25px;
+  border-radius: 8px;
+  font-size: 18px;
+  background-color: #F13C20;
+  color: white;
+  border: none;
+  margin-bottom: 5px;
+  margin-left: 90%
+
+ }

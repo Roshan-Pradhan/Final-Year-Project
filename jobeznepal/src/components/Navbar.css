@@ -1,0 +1,91 @@
+.MainBar{
+    /* background-color: #C5CBE3; */
+    background-color: #EFE2BA;
+    height: 60px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}
+.LogoBar{
+    display: flex;
+    align-items: center;
+}
+.LogoBarItems{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    text-decoration: none;
+    /* color: #4056A1; */
+    color: #F13C20;
+}
+.LogoBarItems h5{
+    font-size: 18px;
+    font-weight: 600;
+}
+.MenuBar{
+    display: flex;
+    column-gap: 20px;
+    align-items: center;
+
+}
+.MenuBarProfile{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    column-gap: 10px;
+
+
+}
+.MenuHome{
+    text-decoration: none;
+    color: black;
+}
+.ProfileBar{
+
+}
+.MobileMenu{
+    display: none;
+}
+.MenuBarMobile{
+    display: none;
+}
+.profileBtn{
+    background-color: #EFE2BA;
+    border: none;
+    text-decoration: none;
+    font-size: 16px;
+
+}
+.profileBtn:hover{
+    color: black !important;
+}
+
+
+
+
+
+@media only screen and (max-width: 600px) {
+    .MobileMenu{
+        display: block;
+    }
+    .LogoBar{
+        order: 1;
+    }
+    .MenuBar{
+        display: none;
+    }
+    .ProfileBar{
+        order: 2;
+    }
+    .MenuBarMobile{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 30px;
+        background-color: #EFE2BA;
+        padding-top: 10px;
+        padding-bottom: 20px;
+    }
+   
+  }

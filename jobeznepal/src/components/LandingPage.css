@@ -1,0 +1,174 @@
+.MainBody{
+    height: 60vh;
+    background-color: #EFE2BA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.TEXTBODY h2{
+    font-weight: 600;
+    font-size: 35px;
+}
+.JOBTITLE{
+    font-weight: 700;
+    font-size: 39px;
+    color: #F13C20;
+}
+.TEXTBODY h5{
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.HEROIMAGE{
+    width: 550px;
+
+}
+.MAINBUTTON{
+    margin-top: 20px;
+    margin-right: 15px;
+    border: none;
+    background-color: #F13C20;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+
+}
+.INFOSECTION{
+    display: flex;
+    justify-content: space-evenly;
+}
+.infoleft{
+    width: 45%;
+}
+.jobbs{
+    text-align: center;
+    margin: 20px 0px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: underline;
+    text-underline-position: below;
+    text-decoration-color: #F13C20;
+    text-underline-offset: 8px;
+
+}
+.inforight{
+    width: 45%;
+}
+.provider{
+    display: flex;
+    justify-content: space-around;
+    column-gap: 30px;
+}
+.icondesign{
+    background-color: white;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.howOne{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    margin-bottom: 10px;
+    row-gap: 10px;
+    width: 180px;
+    height: 160px;
+    border-radius: 8px;
+    border-bottom: 3px solid #F13C20;
+
+}
+.howOne h3{
+font-weight: 500;
+font-size: 17px;
+}
+
+.hr{
+    border: 1px solid rgb(172, 172, 172);
+    margin-top: 40px;
+    height: 180px;
+}
+
+@media only screen and (max-width: 600px) {
+    .MainBody{
+        display: flex;
+        overflow-x: hidden;
+        height:85vh;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+        row-gap: 20px;
+    }
+    .HEROIMAGE{
+        width: 420px;
+    }
+    .INFOSECTION{
+        display: flex;
+        flex-direction: column;
+    }
+    .infoleft{
+        width: 100%;
+        margin-top: 50px;
+    }
+    .inforight{
+        margin-top: 30px;
+
+        width: 100%;
+    }
+    .provider{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 20px;
+        margin-top: 40px;
+    }
+    .icondesign{
+        width: 80px;
+        height: 80px;
+    }
+    .howOne{
+        width: 250px;
+        height: 200px;
+    }
+    .howOne h3{
+    font-size: 25px;
+    }
+
+    .hr{
+        border: 1px solid rgb(172, 172, 172);
+        height: 0px;
+        width: 90%;
+        margin: auto;
+        margin-top: 40px;
+    }
+  
+    .TEXTBODY h2{
+        text-align: center;
+        font-weight: 600;
+        font-size: 20px;
+    }
+    .JOBTITLE{
+        font-weight: 700;
+        font-size: 30px;
+        color: #F13C20;
+    }
+    .TEXTBODY h5{
+   display: none;
+    }
+    .BUTTONBODY{
+        display: flex;
+        justify-content: center;
+    }
+
+}

@@ -1,0 +1,61 @@
+.registerPage{
+    background-color: #EFE2BA;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    column-gap: 10%;
+}
+
+.login-form{
+    background-color: white;
+    width: 30%;
+    padding: 25px;
+    border-bottom: 2px solid #F13C20;
+    border-radius: 8px;
+}
+.login-form h2{
+text-align: center;
+margin-bottom: 10px;
+}
+
+:where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper:focus, :where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper-focused {
+    border-color: #F13C20;
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper:not(:where(.css-dev-only-do-not-override-sk7ap8).ant-input-affix-wrapper-disabled):hover {
+    border-color: #F13C20;
+
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer):hover .ant-select-selector {
+    border-color: #F13C20;
+}
+
+.logoIcon{
+    height: 85px;
+    margin-right: -15px;
+    color: #F13C20;
+}
+.LogoBar h5{
+
+    font-weight: 800;
+    font-size: 35px;
+    color: #F13C20;
+
+}
+
+.login-form-button{
+    margin-right: 10px;
+    background-color: #F13C20;
+}
+.login-form-button:hover{
+    background-color: #F13C20 !important;
+    border: 1px solid black;
+
+}
+.LogoBarItems{
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    text-decoration: none;
+}

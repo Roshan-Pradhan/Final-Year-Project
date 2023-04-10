@@ -1,0 +1,137 @@
+.welcomeScreen{
+    display: flex;
+    align-items: center;
+    column-gap: 50px;
+    background-color: antiquewhite;
+    padding: 20px;
+}
+.profileImg{
+    margin-left: 10%;
+
+}
+.personalDetails h3  {
+    font-size: 25px;
+    margin-bottom: 15px;
+}
+.Mymodel{
+    background-color: bisque;
+}
+:where(.css-dev-only-do-not-override-sk7ap8).ant-btn-primary {
+    color: #fff;
+    background-color: #F13C20 !important;
+    box-shadow: 0 2px 0 rgb(5 145 255 / 10%);
+}
+.customForm{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 10px;
+}
+.customForm > * {
+    flex: 1 0 auto;
+}
+
+.customFormItem{
+    border: none;
+    width: 90%;
+}
+.customFormItemImg{
+    border: none;
+}
+input:focus{
+    outline: none;
+}
+
+input[type=text]{
+    padding-left: 5px;
+    padding-bottom: 2px;
+}
+
+input[type=file]{
+    padding-left: 5px;
+    padding-bottom: 5px;
+}
+input[type=number]{
+    padding-left: 5px;
+    padding-bottom: 5px;
+}
+input::file-selector-button {
+    background-color: #F13C20;
+    border: none;
+    padding: 5px;
+    color: white;
+    border-radius: 5px;
+}
+.customForm h5{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.hr-lines{
+    width: 100%;
+    position: relative;
+    text-align: center;
+  }
+  .hr-lines:before{
+    content:" ";
+    height: 2px;
+    width: 30%;
+    background: red;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+  }
+  
+  .hr-lines:after{
+    content:" ";
+    height: 2px;
+    width: 30%;
+    background: red;
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+  }
+  .antModel{
+    /* width: 50% !important; */
+  }
+  .slcacedemic{
+    display: flex;
+    justify-content: space-between;
+  }
+  .slcacedemicField{
+    padding: 5px;
+  }
+
+  .selectFormINput{
+    width: 170px;
+    padding: none;
+    margin: 5px;
+
+  }
+ legend{
+    /* font-weight: bold; */
+    color: #F13C20;
+ }
+ 
+ fieldset{
+    height: 50px;
+    width: 200px;
+ }
+ .customIcons{
+    color: #F13C20;
+    margin-right: 10px;
+    font-size: large;
+ }
+ .personalDetails h5{
+    font-size: 18px;
+    font-weight: 500;
+ }
+ .address{
+    display: flex;
+ }

@@ -34,7 +34,7 @@
 }
 
 .customFormItem{
-    border: none;
+    /* border: none; */
     width: 90%;
 }
 .customFormItemImg{
@@ -97,9 +97,7 @@ input::file-selector-button {
     top: 50%;
     right: 0;
   }
-  .antModel{
-    /* width: 50% !important; */
-  }
+ 
   .slcacedemic{
     display: flex;
     justify-content: space-between;
@@ -135,3 +133,6 @@ input::file-selector-button {
  .address{
     display: flex;
  }
+ :where(.css-dev-only-do-not-override-htwhyh).ant-btn-primary {
+    background-color: #F13C20 !important;
+}

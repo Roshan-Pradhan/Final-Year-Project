@@ -20,6 +20,7 @@ const Academic = () => {
     window.localStorage.getItem("jobeznepalUser")
   );
   let loggedInUserID = loggedInUser.doUserExist._id;
+  
   const [formValues, setFormValues] = useState([]);
   const [userEduDetails, setUserEduDetails] = useState("");
   const [isAdd, setIsAdd] = useState(false);
@@ -44,7 +45,6 @@ const Academic = () => {
   const getUserEduDetails = async () => {
     try {
       const getData = await Api.get(`/getUserEducation/${loggedInUserID}`);
-      console.log(getData.data);
       setUserEduDetails(getData.data.finduser);
     } catch (error) {
       console.log(error);
@@ -60,7 +60,7 @@ const Academic = () => {
       {userEduDetails ? (
         <div className="educationDiv">
           {userEduDetails.userEducation.map((key, index) => (
-            <div className="educationData">
+            <div className="educationData" key={index}>
               <fieldset>
                 <legend>Qualification</legend>
                 <h1 className="educationItem">
@@ -124,10 +124,10 @@ const Academic = () => {
                         placeholder="Select Your Study Level"
                         allowClear
                       >
-                        <Option value="slc/see">SLC/SEE</Option>
-                        <Option value="+2">+2</Option>
-                        <Option value="Bachelor">Bachelor</Option>
-                        <Option value="Master">Master</Option>
+                        <Select.Option value="slc/see">SLC/SEE</Select.Option>
+                        <Select.Option value="+2">+2</Select.Option>
+                        <Select.Option value="Bachelor">Bachelor</Select.Option>
+                        <Select.Option value="Master">Master    </Select.Option>
                       </Select>
                     </Form.Item>
                     <Form.Item
@@ -181,7 +181,7 @@ const Academic = () => {
                       ]}
                     >
                       <InputNumber
-                        defaultValue={2015}
+                        initialvalues={2015}
                         prefix={
                           <FieldTimeOutlined className="site-form-item-icon" />
                         }

@@ -1,15 +1,15 @@
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message, } from 'antd';
 import "./Register.css"
-import {Link} from "react-router-dom"
+import {Link } from "react-router-dom"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import { faMagnifyingGlassArrowRight } from '@fortawesome/free-solid-svg-icons'
 import Api from '../utills/Api';
-import { useState } from 'react';
+import {  useState } from 'react';
 import ReactLoading from "react-loading";
 
 
-const Login = () => {
+const Login = ({setFromLogin}) => {
   const [isLoading, setIsLoading] = useState(false);
   const onFinish =  async (values) => {
     const {email,password} = values;
@@ -19,15 +19,19 @@ const Login = () => {
         email,password
       })
       if(userLogin.status===200 && userLogin.data.doUserExist.verified===true){
-        message.success(`Welcome ${email}`);
-        window.localStorage.setItem(
+        message.success({
+          content:`Welcome ${email}`,
+          className:"cutomMessagePrompt"
+      })
+      setFromLogin(userLogin.data.doUserExist.usertype)
+        window.localStorage.setItem (
           "jobeznepalUser",
            JSON.stringify(userLogin?.data)
          );
          window.localStorage.setItem("isLoggedIn",true);
-         window.location.href="./userProfile";
+         window.location.href = "./userProfile";
+
       }
-      console.log(userLogin)
     } catch (error) {
       message.error(error.response.data)
       console.log(error)
@@ -36,6 +40,8 @@ const Login = () => {
 
     // console.log('Received values of form: ', values);
   };
+
+  
   return (
     <div className="registerPage">
   <div className='LogoBar'>
@@ -56,7 +62,7 @@ const Login = () => {
 
       <Form.Item
         name="email"
-        className='formItem'
+        // className='formItem'
         rules={[
           {
             required: true,

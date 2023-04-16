@@ -31,7 +31,7 @@ const LandingPage = () => {
           </div>
         </div>
         <div className="IMAGEBODY">
-          <img src="/IMAGES/heroimage.png" className="HEROIMAGE" />
+          <img alt="jobeznepal" src="/IMAGES/heroimage.png" className="HEROIMAGE" />
         </div>
       </div>
       <div className="INFOSECTION">

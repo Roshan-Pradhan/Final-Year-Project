@@ -1,5 +1,6 @@
 const express = require ('express');
 const multer  = require('multer')
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, "userImages")
@@ -14,7 +15,7 @@ const upload = multer({ storage: storage })
 const router = express.Router();
 
 
-const {Register, Login, verifyToken, getUser, userMoreInfo, getUserExtraInfo, verifyEMail, educationDetails, getUserEducation} = require ("../controllers/userController")
+const {Register, Login, verifyToken, getUser, userMoreInfo, getUserExtraInfo, verifyEMail, educationDetails, getUserEducation, userResume, userResumeData, getCompanyExtraInfo, companyMoreInfo} = require ("../controllers/userController")
 
 router.post("/register",Register)
 router.get("/users/:id/verify/:token",verifyEMail)
@@ -24,6 +25,13 @@ router.post("/userMoreInfo",upload.single('profileImg'),userMoreInfo)
 router.get("/userExtraInfo/:loggedInUserID",getUserExtraInfo)
 router.post("/educationDetails",educationDetails)
 router.get("/getUserEducation/:loggedInUserID",getUserEducation)
+router.post("/userResume",userResume)
+router.get("/userResumeData/:loggedInUserID",userResumeData)
+
+//-------------------------------------------------------------------------------------------------------------
+router.post("/companyMoreInfo",upload.single('profileImg'),companyMoreInfo)
+
+router.get("/companyExtraInfo/:loggedInUserID",getCompanyExtraInfo)
 
 
 

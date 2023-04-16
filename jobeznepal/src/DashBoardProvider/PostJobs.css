@@ -1,0 +1,71 @@
+.buttonPostJObs{
+display: flex;
+justify-content: center;
+align-items: center;
+
+}
+.jobsButton{
+    background-color: #F13C20;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: white;
+    font-size: 18px;
+}
+input[type=file]{
+    padding-left: 5px;
+    padding-bottom: 5px;
+}
+input[type=number]{
+    padding-left: 5px;
+    padding-bottom: 0px;
+}
+
+  .jobsForm{
+    margin-left: 45px;
+    /* display: grid; */
+    /* grid-template-columns: auto auto; */
+  }
+  
+  .titleNumber{
+    display: grid;
+    grid-template-columns: auto auto ;
+  }
+   .jobsForm input{
+     width: 500px !important;
+  }
+  .jobsLocation{
+    display: grid;
+    grid-template-columns: auto auto auto ;
+    grid-column-gap: 10px;
+  }
+  .jobsLocation  select {
+    width: 380px !important;
+  }
+  .jobsLocation  input {
+    width: 370px !important;
+  }
+  .salaryXperience{
+    display: grid;
+    grid-template-columns: auto auto ;
+
+  }
+  /* .jobField{
+    width: 100vw !important;
+    margin-top: 10px
+  } */
+   .customFieldset{
+    height: auto;
+    
+  }
+  .jobsSpecification{
+    display: flex;
+    column-gap: 150px;
+  }
+.jobsFormItemSelect{
+    width: 500px;
+    height: 100px;
+}
+.jobDescriptionfieldset{
+    height: auto;
+}

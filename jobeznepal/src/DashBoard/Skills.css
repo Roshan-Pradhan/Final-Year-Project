@@ -1,6 +1,17 @@
+.skillsForm{
+    padding-bottom: 50px;
+}
+
+.formItem{
+    display: flex;
+    flex-direction: column;
+    row-gap: 70px;
+    margin-left: 40px;
+}
+
 .skillsForm fieldset{
-    width: 500px;
     margin: 0px 40px;
+    width: 100%;
 }
 .skillsForm legend{
 
@@ -8,9 +19,11 @@
     font-size: 15px;
 }
 .skillsInput{
+    width: 50% !important;
     border-radius: 5px;
     padding-top: 5px;
     padding-left: 5px;
+    margin-top: 10px;
 
 }
 input[type=text]{
@@ -18,5 +31,55 @@ input[type=text]{
     padding-bottom: 2px;
 }
 .information{
-    color:red;
+    color:black;
  }
+ .parseSkill{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    margin-bottom: 20px;
+
+ }
+ .parseSkill h4{
+    color:#F13C20;
+    font-size: 15px;
+    font-weight: bold;
+ }
+
+
+ .subSkill{
+    font-size: 15px;
+    font-weight: 500;
+ }
+ .mapSkills{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    row-gap: 10px;
+    margin-left: 40px;
+    margin-bottom: -40px;
+ }
+
+ .flowMapSkills{
+    display: grid;
+    flex-direction: column;
+    background-color: #F13C20;
+ }
+ .exInfo{
+    /* background-color: #F13C20; */
+    /* color: white; */
+    font-size: 15px;
+    font-weight: bold;
+    color: #F13C20;
+ }
+ /* svg{
+    fill: red !important;
+    font-weight: bold;
+    font-size: 15px;
+} */
+.customTag{
+        border:none;
+        font-size: 15px;
+        background-color:#EFE2BA;
+}

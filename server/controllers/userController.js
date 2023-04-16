@@ -1,6 +1,8 @@
 
 const registeredUser = require("../model/user");
 const userProfileData = require("../model/userProfile");
+const companyProfile = require("../model/companyProfile")
+const userSkillsTraining= require("../model/skills")
 const education = require("../model/education");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -9,6 +11,7 @@ const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 
 export const Register = async (req, res) => {
+  
   const emailRegex = /\S+@\S+\.\S+/;
   const { username, mobilenumber, email, gender, usertype, password } =
     req.body;
@@ -175,6 +178,13 @@ export const getUser = async (req, res) => {
 export const getUserExtraInfo = async (req, res) => {
   const userId = req.params.loggedInUserID;
 
+  let finduser;
+  try {
+    finduser = await registeredUser.findById(userId, "-password");
+  } catch (error) {
+    return new Error(error);
+  }
+  const userType = finduser.usertype;
   let finduserExtraData;
   try {
     finduserExtraData = await userProfileData.findOne({loggedInUserID:userId});
@@ -184,7 +194,7 @@ export const getUserExtraInfo = async (req, res) => {
   if (!finduserExtraData) {
     return res.status(404).json({ Message: "User not found" });
   }
-  return res.status(200).json({ finduserExtraData });
+  return res.status(200).json({ finduserExtraData,userType });
 };
 
 
@@ -235,7 +245,6 @@ export const educationDetails =async(req,res)=>{
 
 export const getUserEducation = async(req,res)=>{
   const userId = req.params.loggedInUserID;
-  console.log(userId,239)
   let finduser;
   try {
     finduser = await education.findOne({userId:userId});
@@ -248,6 +257,84 @@ export const getUserEducation = async(req,res)=>{
   }
   return res.status(200).json({ finduser });
 
+}
 
+export const userResume = async(req,res)=>{
+  const userId = req.body.loggedInUserID;
+  let existingUserDetails = await userSkillsTraining.findOne({userId});
+
+  if (existingUserDetails) return res.status(400).send(`Your details already exists`);
+
+  const saveData = new userSkillsTraining({
+    loggedInUserID:req.body.loggedInUserID,
+    skills:req.body.skills,
+    training:req.body.training,
+    employee:req.body.employee,
+  });
+  try {
+    await saveData.save();
+    return res.status(200).json({ Message: "Succesfully Submitted" });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const userResumeData = async(req,res)=>{
+  const userId = req.params.loggedInUserID;
+  let finduserResume;
+  try {
+    finduserResume = await userSkillsTraining.findOne({loggedInUserID:userId});
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!finduserResume) {
+    return res.status(404).json({ Message: "User Education details not found" });
+  }
+  return res.status(200).json({ finduserResume });
 
 }
+
+//------------------------------------------------------------------------------------------------------------
+export const companyMoreInfo = async (req, res) => {
+  
+  const saveData = new companyProfile({
+    loggedInUserID:req.body.loggedInUserID,
+    companyName:req.body.companyName,
+    companyEmail:req.body.companyEmail,
+    companyNumber:req.body.companyNumber,
+    companyType:req.body.companyType,
+    selectedValueProvince:req.body.selectedValueProvince,
+    selectedValueDistrict:req.body.selectedValueDistrict,
+    selectedValueStreet:req.body.selectedValueStreet,
+    profileImg: /userImages/ + req.file.filename,
+  });
+  try {
+    await saveData.save();
+    return res.status(200).json({ Message: "Succesfully Submitted" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCompanyExtraInfo = async (req, res) => {
+  const userId = req.params.loggedInUserID;
+
+  let finduser;
+  try {
+    finduser = await registeredUser.findById(userId, "-password");
+  } catch (error) {
+    return new Error(error);
+  }
+  const userType = finduser.usertype;
+
+  let findCompanyExtraData;
+  try {
+    findCompanyExtraData = await companyProfile.findOne({loggedInUserID:userId});
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!findCompanyExtraData) {
+    return res.status(404).json({ Message: "Company Details not found" });
+  }
+  return res.status(200).json({ findCompanyExtraData,userType });
+};

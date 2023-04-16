@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { message, Modal } from "antd";
-import Api from "../utills/Api";
-import "./Profile.css";
+import Api from"../utills/Api"
+import "../DashBoard/Profile.css"
 import { province, districts } from "../ExternalData/Nepal";
 import {
   MailOutlined,
   PhoneOutlined,
   PushpinOutlined,
 } from "@ant-design/icons";
-import UserInfoSideBar from "./UserInfoSideBar";
+import CompanyPage from "./CompanyPage";
+import PostJobs from "./PostJobs";
 
-const Profile = ({ setHomeData }) => {
+const CompanyDetails = ({ setHomeData }) => {
 
   const loggedInUser = JSON.parse(
     window.localStorage.getItem("jobeznepalUser")
@@ -18,51 +19,41 @@ const Profile = ({ setHomeData }) => {
   let loggedInUserID = loggedInUser.doUserExist._id;
 
   const [loggedInUserData, setLoggedInUserData] = useState([]);
-  const [loggedInUserExtraData, setLoggedInUserExtraData] = useState([]);
+  const [loggedInCompanyExtraData, setLoggedInCompanyExtraData] = useState([]);
   const [profileImg, setProfileImg] = useState("");
 // console.log(loggedInUserExtraData)
   const [selectedValueProvince, setSelectedValueProvince] = useState("1");
   const [selectedValueDistrict, setSelectedValueDistrict] = useState("");
   const [selectedValueStreet, setSelectedValueStreet] = useState("");
-  const [userName, setUserName] = useState('')
-  const [userEmail, setUserEmail] = useState('')
-  const [userNumber, setUserNumber] = useState('')
-  const [usergender, setUsergender] = useState('')
-  const [userDOB, setUserDOB] = useState('')
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [companyName,  setCompanyName] = useState('')
+  const [companyEmail, setCompanyEmail] = useState('')
+  const [companyNumber,setCompanyNumber] = useState('')
+  const [companyType, setCompanyType] = useState('')
+  const [isSubmitted, setIsSubmitted] = useState(true);
   const [modalOpen, setModalOpen] = useState(true);
 
-  const fetchUserInfo = async () => {
-    try {
-      const getUserInfo = await Api.get(`/user/${loggedInUserID}`);
-      setLoggedInUserData(getUserInfo.data.finduser);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+const [error, setError] = useState('')
   //loggedinuserID
   const loggedID = loggedInUserData._id;
 
   //upload profile info
 
-  const handleUserName =(e) =>{
-    setUserName(e.target.value )
+  const handleCompanyName =(e) =>{
+    setCompanyName(e.target.value )
 
   }
-  const handleUserEmail =(e) =>{
-    setUserEmail(e.target.value)
+  const handleCompanyEmail =(e) =>{
+    setCompanyEmail(e.target.value)
     
   }  
-  const handleUserNumber =(e) =>{
-    setUserNumber(e.target.value)
+  const handleCompanyNumber =(e) =>{
+    setCompanyNumber(e.target.value)
   }
 
-  const handleGender =(e)=>{
-    setUsergender(e.target.value)
+  const handleCompanyType =(e)=>{
+    setCompanyType(e.target.value)
   }
-const handleDate =(e)=>{
-  setUserDOB(e.target.value)
-}
+
   const handleSelect = (e) => {
     setSelectedValueProvince(e.target.value);
   };
@@ -78,67 +69,76 @@ const handleDate =(e)=>{
     setSelectedValueStreet(e.target.value);
   };
 
+
   const handleSubmit = async (e) => {
 
+    if (
+        companyName.trim() === '' ||
+        companyEmail.trim() === '' ||
+        companyNumber.trim() === '' ||
+        companyType.trim() === '' ||
+        selectedValueProvince.trim() === '' ||
+        selectedValueStreet.trim() === '' ||
+        selectedValueDistrict.trim() === '' ||
+        !profileImg ||
+        loggedInUserID.trim() === ''
+      ) {
+        setError("All fields are required");
+        return;
+      }
+
     const formData = new FormData();
-
-//  if(userEmail || userEmail || userNumber || usergender || userDOB || selectedValueProvince || selectedValueDistrict || selectedValueStreet || profileImg == null){
-//   return message.error("Form fields cannot be empty")
-//  }
-//  else{
-
-    formData.append("userName",userName);
-    formData.append("userEmail",userEmail);
-    formData.append("userNumber",userNumber);
-    formData.append("usergender",usergender);
-    formData.append("userDOB",userDOB);
+    formData.append("companyName",  companyName);
+    formData.append("companyEmail", companyEmail);
+    formData.append("companyNumber",companyNumber);
+    formData.append("companyType",companyType);
     formData.append("selectedValueProvince", selectedValueProvince);
     formData.append("selectedValueDistrict", selectedValueDistrict);
     formData.append("selectedValueStreet", selectedValueStreet);
     formData.append("profileImg", profileImg);
     formData.append("loggedInUserID", loggedInUserID);
 
+
     try {
       //headers is mosttttt important to include
-      const sendProfileDataImg = await Api.post("/userMoreInfo", formData, {
+      const sendProfileDataImg = await Api.post("/companyMoreInfo", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(sendProfileDataImg);
       message.success(sendProfileDataImg.data.Message);
-      fetchUserExtraInfo();
+      fetchCompanyExtraInfo();
       setModalOpen(false);
+
     } catch (error) {
+      message.error(error.response.data);
       console.log(error);
     }
   };
 
   //for addition info
-  const fetchUserExtraInfo = async () => {
+  const fetchCompanyExtraInfo = async () => {
     try {
-      const getUserExtraInfo = await Api.get(
-        `/userExtraInfo/${loggedInUserID}`
+      const getCompanyExtraInfo = await Api.get(
+        `/companyExtraInfo/${loggedInUserID}`
       );
-      setLoggedInUserExtraData(getUserExtraInfo.data.finduserExtraData);
-      setHomeData(getUserExtraInfo.data);
+      setLoggedInCompanyExtraData(getCompanyExtraInfo.data.findCompanyExtraData);
+      setHomeData(getCompanyExtraInfo.data);
+      setIsSubmitted(false);
     } catch (error) {
-      setIsSubmitted(true);
       console.log(error.response);
     }
   };
 
   useEffect(() => {
-    fetchUserInfo();
-    fetchUserExtraInfo();
+    fetchCompanyExtraInfo();
   }, []);
 
   return (
     <>
-      {/* <Navbar loggedInUserExtraData={loggedInUserExtraData} /> */}
-      {loggedInUserExtraData.length !== 0 &&(
+      {loggedInCompanyExtraData.length !== 0 &&(
    <div className="welcomeScreen">
    <div className="profileImg">
      <img
-       src={`http://localhost:8001${loggedInUserExtraData.profileImg}`}
+       src={`http://localhost:8001${loggedInCompanyExtraData.profileImg}`}
        style={{
          width: "200px",
          height: "200px",
@@ -149,32 +149,31 @@ const handleDate =(e)=>{
      />
    </div>
    <div className="personalDetails">
-     <h3>Welcome, {loggedInUserExtraData.userName}!</h3>
+     <h3>Welcome, {loggedInCompanyExtraData.companyName}!</h3>
      <h5>
        <MailOutlined className="customIcons" />
-       {loggedInUserExtraData.userEmail}
+       {loggedInCompanyExtraData.companyEmail}
      </h5>
      <h5>
        <PhoneOutlined className="customIcons" />
-       {loggedInUserExtraData.userNumber}
+       {loggedInCompanyExtraData.companyNumber}
      </h5>
      <div className="address">
        <h5>
          <PushpinOutlined className="customIcons" />
-         Province {loggedInUserExtraData.selectedValueProvince}, {}{" "}
+         Province {loggedInCompanyExtraData.selectedValueProvince}, {}{" "}
        </h5>
-       <h5> {loggedInUserExtraData.selectedValueDistrict}</h5>
-       <h5>,{loggedInUserExtraData.selectedValueStreet}</h5>
+       <h5> {loggedInCompanyExtraData.selectedValueDistrict}</h5>
+       <h5>,{loggedInCompanyExtraData.selectedValueStreet}</h5>
      </div>
    </div>
  </div>
       )}
-   
+      {loggedInCompanyExtraData.length == 0 &&(
 
-      {isSubmitted === true && (
         <>
           <Modal
-            title={loggedInUserData.username + " " + "Information"}
+            title={"Provide Company Details"}
             centered
             maskClosable={false}
             // closable={false}
@@ -190,59 +189,54 @@ const handleDate =(e)=>{
               onSubmit={handleSubmit}
               encType="multipart/form-data"
             >
-              <h4 className="hr-lines">Personal Information</h4>
+                {error&&
+            <p style={{color:"red",fontSize:"15px"}}>{error}*</p>    
+            }
+              <h4 className="hr-lines">Company Information</h4>
               <fieldset>
-                <legend>Your Name</legend>
+                <legend>Company Name</legend>
                 <input
                   className="customFormItem"
-                  onChange={handleUserName}
+                  onChange={handleCompanyName}
                   type="text"
-                  placeholder={loggedInUserData.username}
+                  placeholder="Provide your company name"
                   name="text"
                   required
                 />
               </fieldset>
               <fieldset>
-                <legend>Your Email</legend>
+                <legend>Company Email</legend>
                 <input
                   className="customFormItem"
-                  onChange={handleUserEmail}
+                  onChange={handleCompanyEmail}
                   type="text"
-                  placeholder={loggedInUserData.email}
+                  placeholder="Provide your company email"
                   name="email"
                   required
                 />
               </fieldset>
               <fieldset>
-                <legend>Your Number</legend>
+                <legend>Company Number</legend>
                 <input
                   className="customFormItem"
-                  onChange={handleUserNumber}
+                  onChange={handleCompanyNumber}
                   type="number"
-                  placeholder={loggedInUserData.mobilenumber}
+                  placeholder="Provide your company number"
                   name="mobilenumber"
                   required
                 />
               </fieldset>
               <fieldset>
-                <legend>Select Gender</legend>
-                <select name="gender" 
+                <legend>Company Type</legend>
+                <input
                   className="customFormItem"
-                  onChange={handleGender}
+                  onChange={handleCompanyType}
+                  type="text"
+                  placeholder="Ex-Banking,Software Service"
+                  name="mobilenumber"
                   required
-                >
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Others">Others</option>
-                </select>
-              </fieldset>
-              <fieldset>
-                <legend>Date Of Birth</legend>
-                <input type="date"
-                className="customFormItem"
-
-            onChange={handleDate}
                 />
+               
               </fieldset>
               <fieldset>
                 <legend>Select Province</legend>
@@ -292,7 +286,7 @@ const handleDate =(e)=>{
               </fieldset>
 
               <fieldset>
-                <legend>Your Profile</legend>
+                <legend>Company Logo/Image</legend>
                 <input
                   className="customFormItemImg"
                   type="file"
@@ -306,11 +300,13 @@ const handleDate =(e)=>{
           </Modal>
         </>
       )}
-      {loggedInUserExtraData.length !== 0 &&(
-      <UserInfoSideBar loggedInUserExtraData={loggedInUserExtraData}/>
-      )}
+{loggedInCompanyExtraData && 
+
+      <CompanyPage loggedInCompanyExtraData={loggedInCompanyExtraData} />
+}
+    
     </>
   );
 };
 
-export default Profile;
+export default CompanyDetails;

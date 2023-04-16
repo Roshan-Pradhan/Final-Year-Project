@@ -1,55 +1,13 @@
 import { Layout } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import React, { useState } from "react";
-import "./UserInfoSideBar.css";
-import Academic from "./Academic";
-import Skills from "./Skills";
+import "../DashBoard/UserInfoSideBar.css"
+import PostJobs from "./PostJobs";
 
-const UserInfoSideBar = ({ loggedInUserExtraData }) => {
-  const [selectedValueProvince, setSelectedValueProvince] = useState("1");
-  const [selectedValueDistrict, setSelectedValueDistrict] = useState("");
-  const [selectedValueStreet, setSelectedValueStreet] = useState("");
-
-  const handleSelect = (e) => {
-    setSelectedValueProvince(e.target.value);
-  };
-  const handleSelectDistrict = (e) => {
-    setSelectedValueDistrict(e.target.value);
-  };
-  const handleChangeStreet = (e) => {
-    setSelectedValueStreet(e.target.value);
-  };
-
-
+const CompanyPage = ({ loggedInCompanyExtraData }) => {
   return (
     <>
       <Layout className="layoutAntd" style={{}}>
-        {/* <Sider
-          className="siderAntd"
-          style={{
-            backgroundColor: "#EFE2BA",
-          }}
-        >
-          <div
-            className="alinks"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              position: "sticky",
-              top: "0",
-            }}
-          >
-            <a href={"#personalDetails"} className="link">
-              Personal Information
-            </a>
-            <a href={"#academicDetails"} className="link">
-              Academic Information
-            </a>
-            <a href={'#skillsDetails'} className="link">
-              Skills
-            </a>
-          </div>
-        </Sider> */}
         <Content
           style={{
             backgroundColor: "white",
@@ -58,19 +16,19 @@ const UserInfoSideBar = ({ loggedInUserExtraData }) => {
           <>
             <div className="personalDetails" id="personalDetails">
               <br />
-              <h4 className="hrLines">Personal Information</h4>
+              <h4 className="hrLines">Company Information</h4>
               <button className="editButton">Edit</button>
               <form className="customAutoForm">
                 <fieldset className="customFieldSet" style={{ border: "none" }}>
                   <legend style={{ fontWeight: "bold", fontSize: "15px" }}>
-                    Name
+                    Company Name
                   </legend>
                   <input
                     type="text"
                     name=""
                     id=""
                     className="customFormItem"
-                    defaultValue={loggedInUserExtraData.userName}
+                    defaultValue={loggedInCompanyExtraData.companyName}
                     disabled={true}
                     style={{
                       paddingLeft: "0px",
@@ -82,14 +40,14 @@ const UserInfoSideBar = ({ loggedInUserExtraData }) => {
                 </fieldset>
                 <fieldset className="customFieldSet" style={{ border: "none" }}>
                   <legend style={{ fontWeight: "bold", fontSize: "15px" }}>
-                    Email
+                   Company Email
                   </legend>
                   <input
                     type="text"
                     name=""
                     id=""
                     className="customFormItem"
-                    defaultValue={loggedInUserExtraData.userEmail}
+                    defaultValue={loggedInCompanyExtraData.companyEmail}
                     disabled={true}
                     style={{
                       paddingLeft: "0px",
@@ -101,14 +59,14 @@ const UserInfoSideBar = ({ loggedInUserExtraData }) => {
                 </fieldset> 
                 <fieldset className="customFieldSet" style={{ border: "none" }}>
                   <legend style={{ fontWeight: "bold", fontSize: "15px" }}>
-                    PhoneNumber
+                    Company Number
                   </legend>
                   <input
                     type="text"
                     name=""
                     id=""
                     className="customFormItem"
-                    defaultValue={loggedInUserExtraData.userNumber}
+                    defaultValue={loggedInCompanyExtraData.companyNumber}
                     disabled={true}
                     style={{
                       paddingLeft: "0px",
@@ -120,14 +78,14 @@ const UserInfoSideBar = ({ loggedInUserExtraData }) => {
                 </fieldset>
                 <fieldset className="customFieldSet" style={{ border: "none" }}>
                   <legend style={{ fontWeight: "bold", fontSize: "15px" }}>
-                    Gender
+                    Company Type
                   </legend>
                   <input
                     type="text"
                     name=""
                     id=""
                     className="customFormItem"
-                    defaultValue={loggedInUserExtraData.userGender}
+                    defaultValue={loggedInCompanyExtraData.companyType}
                     disabled={true}
                     style={{
                       paddingLeft: "0px",
@@ -137,26 +95,6 @@ const UserInfoSideBar = ({ loggedInUserExtraData }) => {
                     }}
                   />
                 </fieldset>
-                <fieldset className="customFieldSet" style={{ border: "none" }}>
-                  <legend style={{ fontWeight: "bold", fontSize: "15px" }}>
-                    Date of Birth
-                  </legend>
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    className="customFormItem"
-                    defaultValue={loggedInUserExtraData.userDOB}
-                    disabled={true}
-                    style={{
-                      paddingLeft: "0px",
-                      fontWeight: "600",
-                      fontSize: "17px",
-                      backgroundColor: "none",
-                    }}
-                  />
-                </fieldset>
-                
                  <fieldset className="customFieldSet" style={{ border: "none" }}>
                   <legend style={{ fontWeight: "bold", fontSize: "15px" }}>
                     Province
@@ -166,7 +104,7 @@ const UserInfoSideBar = ({ loggedInUserExtraData }) => {
                     name=""
                     id=""
                     className="customFormItem"
-                    defaultValue={loggedInUserExtraData.selectedValueProvince}
+                    defaultValue={loggedInCompanyExtraData.selectedValueProvince}
                     disabled={true}
                     style={{
                       paddingLeft: "0px",
@@ -184,7 +122,7 @@ const UserInfoSideBar = ({ loggedInUserExtraData }) => {
                     name=""
                     id=""
                     className="customFormItem"
-                    defaultValue={loggedInUserExtraData.
+                    defaultValue={loggedInCompanyExtraData.
                       selectedValueDistrict
                       }
                     disabled={true}
@@ -204,7 +142,7 @@ const UserInfoSideBar = ({ loggedInUserExtraData }) => {
                     name=""
                     id=""
                     className="customFormItem"
-                    defaultValue={loggedInUserExtraData.selectedValueStreet
+                    defaultValue={loggedInCompanyExtraData.selectedValueStreet
                     }
                     disabled={true}
                     style={{
@@ -219,16 +157,11 @@ const UserInfoSideBar = ({ loggedInUserExtraData }) => {
               <br />
             </div>
               <div id="academicDetails">
-              <h4 className="hrLines">Academic Information</h4>
+              <h4 className="hrLines">Post Jobs</h4>
               <br />
-              <Academic />
+              <PostJobs loggedInCompanyExtraData={loggedInCompanyExtraData} />
               </div>
-            <br />
-            <div id="skillsDetails">
-              <h4 className="hrLines">Skills and Training</h4>
-              <br />
-              <Skills />
-              </div>
+           
           </>
         </Content>
       </Layout>
@@ -244,4 +177,4 @@ const UserInfoSideBar = ({ loggedInUserExtraData }) => {
   );
 };
 
-export default UserInfoSideBar;
+export default CompanyPage;

@@ -2,6 +2,7 @@
 const registeredUser = require("../model/user");
 const userProfileData = require("../model/userProfile");
 const companyProfile = require("../model/companyProfile")
+const addJobsDB = require("../model/jobsPosts")
 const userSkillsTraining= require("../model/skills")
 const education = require("../model/education");
 const bcrypt = require("bcryptjs");
@@ -145,7 +146,7 @@ return res.status(400).send(`Email Sent to ${doUserExist.email} Please Verify`)
 
 export const verifyToken = async (req, res, next) => {
   const headers = req.headers.cookie;
-  const token = headers.split("=")[1];
+  const token = headers&&headers.split("=")[1];
   if (!token) {
     window.localStorage.clear();
     res.status(404).json({ Message: "No token found" });
@@ -248,7 +249,6 @@ export const getUserEducation = async(req,res)=>{
   let finduser;
   try {
     finduser = await education.findOne({userId:userId});
-    console.log(finduser)
   } catch (error) {
     return new Error(error);
   }
@@ -260,8 +260,9 @@ export const getUserEducation = async(req,res)=>{
 }
 
 export const userResume = async(req,res)=>{
+
   const userId = req.body.loggedInUserID;
-  let existingUserDetails = await userSkillsTraining.findOne({userId});
+  let existingUserDetails = await userSkillsTraining.findOne({loggedInUserID:userId});
 
   if (existingUserDetails) return res.status(400).send(`Your details already exists`);
 
@@ -297,7 +298,7 @@ export const userResumeData = async(req,res)=>{
 //------------------------------------------------------------------------------------------------------------
 export const companyMoreInfo = async (req, res) => {
   
-  const saveData = new companyProfile({
+  const saveDataCompanyProfile = new companyProfile({
     loggedInUserID:req.body.loggedInUserID,
     companyName:req.body.companyName,
     companyEmail:req.body.companyEmail,
@@ -309,8 +310,8 @@ export const companyMoreInfo = async (req, res) => {
     profileImg: /userImages/ + req.file.filename,
   });
   try {
-    await saveData.save();
-    return res.status(200).json({ Message: "Succesfully Submitted" });
+    const companyProfileDoc = await saveDataCompanyProfile.save();
+    return res.status(200).json({ Message: "Succesfully Submitted",companyName:companyProfileDoc.companyName, companyProfileId: companyProfileDoc._id});
   } catch (error) {
     console.log(error);
   }
@@ -338,3 +339,229 @@ export const getCompanyExtraInfo = async (req, res) => {
   }
   return res.status(200).json({ findCompanyExtraData,userType });
 };
+
+export const addJobs = async(req,res)=>{
+  const {jobsData,selectedValueProvince,selectedValueDistrict,selectedValueStreet,selectedValueQualification,loggedInUserID,Skills,Keyskills,companyName,companyId} = req.body;
+
+  const saveData = new addJobsDB({
+    loggedInUserID,
+    jobsData,
+    selectedValueProvince,
+    selectedValueDistrict,
+    selectedValueStreet,
+    selectedValueQualification,
+    Skills,
+    Keyskills,
+    companyBcName:companyName,
+    companyId:companyId,
+    
+  });
+  try {
+    await saveData.save();
+    return res.status(200).json({ Message: "Succesfully Submitted" });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const getPostedJobs = async (req, res) => {
+  const userId = req.params.loggedInUserID;
+  let finduser;
+  try {
+    finduser = await registeredUser.findById(userId, "-password");
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!finduser) {
+    return res.status(404).json({ Message: "Company profile not found" });
+  }
+  let findPostedJobs;
+
+  try {
+    findPostedJobs = await addJobsDB.find({loggedInUserID:userId});
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!findPostedJobs) {
+    return res.status(404).json({ Message: "No jobs found" });
+  }
+  return res.status(200).json({ findPostedJobs });
+};
+
+export const getSingleJobs = async (req, res) => {
+
+  const jobIdparam = req.params.jobID;
+  let findjob;
+  try {
+    findjob = await addJobsDB.findById(jobIdparam, "-loggedInUserID");
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!findjob) {
+    return res.status(404).json({ Message: "No Jobs Found" });
+  }
+  return res.status(200).json({ findjob });
+};
+
+export const getOpenedJob = async (req, res) => {
+  
+  let findPostedJobs;
+  try {
+    findPostedJobs = await addJobsDB.find({});
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!findPostedJobs) {
+    return res.status(404).json({ Message: "No jobs found" });
+  }
+  
+    return res.status(200).json({ findPostedJobs });
+  }
+
+export const publicCompanyExtraInfo = async (req, res) => {
+  let findpublicCompanyExtraData;
+  try {
+    findpublicCompanyExtraData = await companyProfile.find({});
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!findpublicCompanyExtraData) {
+    return res.status(404).json({ Message: "Company Details not found" });
+  }
+  return res.status(200).json({ findpublicCompanyExtraData });
+};
+
+export const getRcmndJobs = async (req, res) => {
+
+  const jobIdparam = req.params.jobsID;
+  let findjobs;
+  try {
+    findjobs = await addJobsDB.findById(jobIdparam, "-loggedInUserID");
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!findjobs) {
+    return res.status(404).json({ Message: "No Jobs Found" });
+  }
+  return res.status(200).json({ findjobs });
+};
+
+export const getUserSkills = async (req, res) => {
+
+  const userId = req.params.loggedInUserID;
+  let findjobs;
+  try {
+    findjobs = await userSkillsTraining.findOne({loggedInUserID:userId}, "-loggedInUserID");
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!findjobs) {
+    return res.status(404).json({ Message: "No User Skills Data Found" });
+  }
+  return res.status(200).json({ findjobs });
+};
+
+export const getUserQualification = async (req, res) => {
+
+  const userId = req.params.loggedInUserID;
+  let findjobs;
+  try {
+    findjobs = await education.findOne({userId:userId}, "-loggedInUserID");
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!findjobs) {
+    return res.status(404).json({ Message: "No User Skills Data Found" });
+  }
+  return res.status(200).json({ findjobs });
+};
+
+
+export const updateProfile = async(req,res)=>{
+  const { id, username, email, mobilenumber, gender, dob, province, district, street } = JSON.parse(req.body.userEditData);
+  try {
+    const updatedUser = await userProfileData.findByIdAndUpdate(id, {
+      userName: username,
+      userEmail: email,
+      userNumber: mobilenumber,
+      userDOB: dob,
+      userGender: gender,
+      selectedValueProvince: province,
+      selectedValueDistrict: district,
+      selectedValueStreet: street
+    }, { new: true });
+    
+    res.status(200).json({updatedUser,Mesaage:"Profile Updated successfully!"});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating profile!');
+  }
+}
+
+export const updateCompanyProfile = async(req,res)=>{
+  const { id, companyname, companyemail, companynumber, companytype, province, district, street } = JSON.parse(req.body.companyEditData);
+  console.log(id,companyname)
+  try {
+    const updatedUser = await companyProfile.findByIdAndUpdate(id, {
+      companyName: companyname,
+      companyEmail: companyemail,
+      companyNumber: companynumber,
+      companyType: companytype,
+      selectedValueProvince: province,
+      selectedValueDistrict: district,
+      selectedValueStreet: street
+    }, { new: true });
+    
+    res.status(200).json({updatedUser,Mesaage:"Profile Updated successfully!"});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating profile!');
+  }
+}
+
+export const getPostedJobswithID = async (req, res) => {
+  const userId = req.params.jobID;
+  let findPostedJobs;
+  try {
+    findPostedJobs = await addJobsDB.findById({userId});
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!findPostedJobs) {
+    return res.status(404).json({ Message: "No jobs found" });
+  }
+  return res.status(200).json({ findPostedJobs });
+};
+
+export const editSinglejob = async(req,res)=>{
+  const {jobsData,selectedValueProvince,selectedValueDistrict,selectedValueStreet,selectedValueQualification,selectedjobID,Skills,Keyskills} = req.body;
+
+  try {
+    const updatedJobs = await addJobsDB.findByIdAndUpdate(selectedjobID, {
+      jobsData: jobsData,
+      selectedValueProvince: selectedValueProvince,
+      selectedValueDistrict: selectedValueDistrict,
+      selectedValueStreet: selectedValueStreet,
+      selectedValueQualification:selectedValueQualification,
+      Skills:Skills,
+      Keyskills:Keyskills,
+    }, { new: true });
+    
+    res.status(200).json({updatedJobs,Mesaage:"Jobs Data Updated successfully!"});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating profile!');
+  }
+}
+
+export const deleteSinglejob = async(req,res)=>{
+  const jobIdparam = req.params.jobsID;
+
+  try {
+    const updatedJobs = await addJobsDB.findByIdAndDelete(jobIdparam)
+    res.status(200).json({Mesaage:"Jobs Data deleted successfully!"});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error deleting jobs Data!');
+  }
+}

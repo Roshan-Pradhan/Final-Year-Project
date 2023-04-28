@@ -14,3 +14,20 @@ input[type=text]{
 button{
   cursor: pointer;
 }
+.customLoading{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:90vh;
+}
+.customReactLoading{
+  height: 75px !important;
+}
+:where(.css-dev-only-do-not-override-htwhyh).ant-btn {
+  height: auto !important;
+  align-items: center;
+  text-align: center;
+}
+fieldset {
+  height: auto !important;
+}

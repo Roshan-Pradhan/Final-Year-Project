@@ -69,3 +69,31 @@
 .customAutoForm input{
   border: none;
 }
+.editInput{
+  border: 1px solid #F13C20 !important;
+  width: 90%;
+  font-weight: 600;
+  font-size: 17px;
+  background-color: none !important;
+
+}
+.normalShowInout{
+  width: 90%;
+  font-weight: 600;
+  font-size: 17px;
+  border: none !important;
+  appearance: none;
+}
+.selectform select{
+  background-color: #FAFAFA;
+  color: black;
+}
+.submitButton{
+  width: 100px;
+  padding: 5px;
+  border-radius: 8px;
+  font-size: 18px;
+  background-color: #F13C20;
+  color: white;
+  border: none;
+}

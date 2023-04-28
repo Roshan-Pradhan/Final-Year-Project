@@ -4,9 +4,10 @@ import { Modal, Tag, message } from "antd";
 import { province, districts } from "../ExternalData/Nepal";
 import Api from "../utills/Api";
 
-const PostJobs = ({ loggedInCompanyExtraData }) => {
+const PostJobs = ({ loggedInCompanyExtraData,companyIDBackend,companyNameBackend }) => {
   const [modalOpen, setModalOpen] = useState(true);
   const [error, setError] = useState("");
+  const [showForm, setShowForm] = useState(false)
   const [jobsData, setJobsData] = useState({
     companyName: "",
     vacancyNumber: "",
@@ -55,7 +56,7 @@ const PostJobs = ({ loggedInCompanyExtraData }) => {
 
   // Handler for pressing Enter key
   const handleKeyPressQualification = (e) => {
-    if (e.key === "Enter" || e.key === " " || e.key === ",") {
+    if (e.key === "Enter" || e.key === ",") {
       e.preventDefault(); // Prevent form submission
       handleAddSkill(); // Call the handleAddSkill function
     }
@@ -84,7 +85,7 @@ const PostJobs = ({ loggedInCompanyExtraData }) => {
 
   // Handler for pressing Enter key
   const handleKeyPressSkills = (e) => {
-    if (e.key === "Enter" || e.key === " " || e.key === ",") {
+    if (e.key === "Enter" || e.key === ",") {
       e.preventDefault(); // Prevent form submission
       handleAddKeySkill(); // Call the handleAddSkill function
     }
@@ -112,62 +113,67 @@ const handleQualificationSelection =(e)=>{
 
 }
 
-
-
   const handleCompanyChange = (e) => {
     console.log(e.target.value);
     setJobsData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+  
   const handleSubmit = async(e) => {
     e.preventDefault();
     let jsonSkills = JSON.stringify(skills);
     let jsonKeyskills = JSON.stringify(keyskills);
+    let jsonjobsData = JSON.stringify(jobsData);
+
     if (
-        jobsData.trim() === '' ||
+        jobsData === '' ||
         selectedValueProvince.trim() === '' ||
         selectedValueStreet.trim() === '' ||
         selectedValueDistrict.trim() === '' ||
         loggedInUserID.trim() === '' ||
-        keyskills.trim() ===''
+        keyskills ===''
 
       ) {
         setError("All fields are required");
         return;
       }
     const formData = new FormData();
-    formData.append("jobsData",jobsData);
+    formData.append("jobsData",jsonjobsData);
     formData.append("selectedValueProvince", selectedValueProvince);
     formData.append("selectedValueDistrict", selectedValueDistrict);
     formData.append("selectedValueStreet", selectedValueStreet);
     formData.append("selectedValueQualification",selectedValueQualification)
     formData.append("loggedInUserID", loggedInUserID);
-    formData.append("jsonSkills",jsonSkills)
-    formData.append("jsonKeyskills",jsonKeyskills)
+    formData.append("Skills",jsonSkills)
+    formData.append("Keyskills",jsonKeyskills)
+    formData.append("companyName",companyNameBackend)
+    formData.append("companyId",companyIDBackend)
     
     try {
         const addJobs = await Api.post("/addJobs",formData)
       message.success(addJobs.data.Message);
-
+      setShowForm(false);
     } catch (error) {
         console.log(error)
       message.error(error.response.data);
-        
     }
-
-
-    console.log(jobsData,selectedValueProvince,selectedValueDistrict,selectedValueStreet,skills,keyskills,selectedValueQualification);
   };
+
   return (
     <>
       <div className="buttonPostJObs">
-        <button className="jobsButton">Post Jobs +</button>
+        <button className="jobsButton" style={{marginBottom:"20px"}} onClick={()=>setShowForm(true)}>Post Jobs +</button>
       </div>
+      {showForm ? (
+        <div className="postJObForm">
+
       <form
         className="jobsForm"
         onSubmit={handleSubmit}
         encType="multipart/form-data"
       >
         {error && <p style={{ color: "red", fontSize: "15px" }}>{error}*</p>}
+        <fieldset className="customFieldset">
+        <legend className="legendTitle">Job Information</legend>
         <div className="titleNumber">
           <fieldset>
             <legend>Job Title*</legend>
@@ -193,8 +199,32 @@ const handleQualificationSelection =(e)=>{
           </fieldset>
         </div>
         <br />
+        <div className="salaryXperience">
+          <fieldset>
+            <legend>Offered Salary</legend>
+            <input
+              className="jobsFormItem"
+              onChange={handleCompanyChange}
+              type="number"
+              placeholder="Ex-20000-30000"
+              name="jobSalary"
+            />
+          </fieldset>
+          <fieldset>
+            <legend>Years of Experience</legend>
+            <input
+              className="jobsFormItem"
+              onChange={handleCompanyChange}
+              type="Number"
+              placeholder="Ex-2"
+              name="jobExperience"
+            />
+          </fieldset>
+        </div>
+        </fieldset>
+        <br />
         <fieldset className="customFieldset">
-          <legend>Job Location</legend>
+          <legend className="legendTitle">Job Location</legend>
           <div className="jobsLocation">
             <fieldset>
               <legend>Select Province*</legend>
@@ -244,31 +274,9 @@ const handleQualificationSelection =(e)=>{
           </div>
         </fieldset>
         <br />
-        <div className="salaryXperience">
-          <fieldset>
-            <legend>Offered Salary</legend>
-            <input
-              className="jobsFormItem"
-              onChange={handleCompanyChange}
-              type="number"
-              placeholder="Ex-20000-30000"
-              name="jobSalary"
-            />
-          </fieldset>
-          <fieldset>
-            <legend>Years of Experience</legend>
-            <input
-              className="jobsFormItem"
-              onChange={handleCompanyChange}
-              type="Number"
-              placeholder="Ex-2"
-              name="jobExperience"
-            />
-          </fieldset>
-        </div>
-        <br />
         <fieldset className="customFieldset">
-          <legend className="legendTitle">Job Specification</legend>
+        <legend className="legendTitle">Applicants Qualification</legend>
+
           <div className="jobsSpecification">
             <fieldset className="customFieldset">
               <legend>Qualification Required</legend>
@@ -293,14 +301,14 @@ const handleQualificationSelection =(e)=>{
                 <legend>Qualification Field</legend>
                 <p className="jobinformation">
                   Enter qualification field required for applicants then press
-                  enter or space or comma for adding another.
+                  enter or comma for adding another.
                   <br />
                   <span className="exInfo">
                     Ex: Science, Commerce, BBS, BBA, BE, BCA..
                   </span>
                 </p>
                 <input
-                  className="jobsFormItem"
+                  className="jobqualificationfieldInput"
                   type="text"
                   value={qualificationField}
                   onChange={handlequalificationFieldchange}
@@ -318,8 +326,8 @@ const handleQualificationSelection =(e)=>{
             className=""
             style={{
               display: "flex",
-              marginTop: "10px",
-              marginBottom: "10px",
+              flexWrap:"wrap",
+              marginLeft:"50%"
             }}
           >
             {skills.map((item) => (
@@ -336,12 +344,14 @@ const handleQualificationSelection =(e)=>{
           </div>
         )}
         <br />
+        <fieldset className="customFieldset">
+        <legend className="legendTitle">Applicants Key Skills</legend>
         <div className="jobField">
               <fieldset className="customFieldset">
                 <legend>Key Skills*</legend>
                 <p className="jobinformation">
                 Please mention relevant skills and expertise required for a applicants...
-                Please Press enter or space or comma for adding another.
+                Please Press enter or comma for adding another.
                   <br />
                   <span className="exInfo">
                     Ex: MS Word, HTML, CSS, EXCEL....
@@ -356,10 +366,11 @@ const handleQualificationSelection =(e)=>{
                   placeholder="Enter a details and press Enter or Space or Comma "
                   style={{ width: "100%" }}
                   name="keyskills"
-                  required
+                 
                 />
               </fieldset>
             </div>
+            </fieldset>
             <br />
             {keyskills.length > 0 && (
           <div
@@ -386,12 +397,16 @@ const handleQualificationSelection =(e)=>{
         <div className="jobDescription">
             <fieldset className="jobDescriptionfieldset">
                 <legend>Job Description</legend>
-                <textarea id="myTextarea" name="myTextarea" rows="6" cols="70" onChange={handleCompanyChange} placeholder="Describe the job requirements, skills, and responsibilities..."></textarea>
+                <textarea id="myTextarea" name="myTextarea" rows="6" cols="75" onChange={handleCompanyChange} placeholder="Describe the job requirements, skills, and responsibilities..."></textarea>
             </fieldset>
         </div>
         <button type="submit"  className="jobsButton" style={{marginBottom:"10px"}}>Submit </button>
       </form>
-      {/* </Modal> */}
+      </div> 
+
+      ):(
+        <></>
+      )}
     </>
   );
 };

@@ -11,7 +11,7 @@ import {
 import CompanyPage from "./CompanyPage";
 import PostJobs from "./PostJobs";
 
-const CompanyDetails = ({ setHomeData }) => {
+const CompanyDetails = ({ setHomeData,setCompanyInfo }) => {
 
   const loggedInUser = JSON.parse(
     window.localStorage.getItem("jobeznepalUser")
@@ -21,7 +21,6 @@ const CompanyDetails = ({ setHomeData }) => {
   const [loggedInUserData, setLoggedInUserData] = useState([]);
   const [loggedInCompanyExtraData, setLoggedInCompanyExtraData] = useState([]);
   const [profileImg, setProfileImg] = useState("");
-// console.log(loggedInUserExtraData)
   const [selectedValueProvince, setSelectedValueProvince] = useState("1");
   const [selectedValueDistrict, setSelectedValueDistrict] = useState("");
   const [selectedValueStreet, setSelectedValueStreet] = useState("");
@@ -31,8 +30,10 @@ const CompanyDetails = ({ setHomeData }) => {
   const [companyType, setCompanyType] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(true);
   const [modalOpen, setModalOpen] = useState(true);
-
+  const [companyIDBackend, setCompanyIDBackend] = useState('')
+  const [companyNameBackend, setCompanyNameBackend] = useState('')
 const [error, setError] = useState('')
+
   //loggedinuserID
   const loggedID = loggedInUserData._id;
 
@@ -105,6 +106,8 @@ const [error, setError] = useState('')
         headers: { "Content-Type": "multipart/form-data" },
       });
       message.success(sendProfileDataImg.data.Message);
+      setCompanyIDBackend(sendProfileDataImg.data.companyProfileId);
+      setCompanyNameBackend(sendProfileDataImg.data.companyName);
       fetchCompanyExtraInfo();
       setModalOpen(false);
 
@@ -121,16 +124,15 @@ const [error, setError] = useState('')
         `/companyExtraInfo/${loggedInUserID}`
       );
       setLoggedInCompanyExtraData(getCompanyExtraInfo.data.findCompanyExtraData);
-      setHomeData(getCompanyExtraInfo.data);
+      setCompanyInfo(getCompanyExtraInfo.data);
       setIsSubmitted(false);
     } catch (error) {
       console.log(error.response);
     }
   };
-
   useEffect(() => {
     fetchCompanyExtraInfo();
-  }, []);
+  }, [setCompanyInfo]);
 
   return (
     <>
@@ -285,7 +287,7 @@ const [error, setError] = useState('')
                 />
               </fieldset>
 
-              <fieldset>
+              <fieldset className="customFieldset">
                 <legend>Company Logo/Image</legend>
                 <input
                   className="customFormItemImg"
@@ -300,9 +302,10 @@ const [error, setError] = useState('')
           </Modal>
         </>
       )}
-{loggedInCompanyExtraData && 
 
-      <CompanyPage loggedInCompanyExtraData={loggedInCompanyExtraData} />
+{loggedInCompanyExtraData.length !==0 && 
+
+     <CompanyPage companyIDBackend={companyIDBackend} companyNameBackend={companyNameBackend} loggedInCompanyExtraData={loggedInCompanyExtraData} />
 }
     
     </>

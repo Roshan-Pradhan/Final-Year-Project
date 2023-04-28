@@ -1,0 +1,67 @@
+.searchField{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: blanchedalmond;
+    
+}
+
+.filterField{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    width: 100vw;
+    justify-content: space-around;
+}
+.filterButton{
+    font-size: 17px;
+    cursor: pointer;
+}
+.active{
+    font-size: 17px;
+    cursor: pointer;
+    text-decoration: underline solid #F13C20 50%;
+}
+.filterButton:hover{
+    text-decoration: underline solid #F13C20 50%;
+}
+
+.searchJobs{
+    border: none;
+    padding: 8px !important;
+    width: 350px;
+    border-radius: 8px;
+
+}
+.searchView{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+
+}
+.searchButton{
+    border: none;
+    width: 100px;
+    border-radius: 8px;
+    background-color: #F13C20;
+    color: white;
+}
+.browsebyLocation{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:10px;
+    justify-content: center;
+}
+.locations{
+    background-color: #F13C20;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.locations h1{
+    font-size: 14px;
+    color: white;
+}

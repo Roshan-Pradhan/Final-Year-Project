@@ -8,6 +8,7 @@ const Skills = () => {
     window.localStorage.getItem("jobeznepalUser")
   );
   let loggedInUserID = loggedInUser.doUserExist._id;
+  
   const [skills, setSkills] = useState([]); // State to store the skills
   //forsending to backend
   const [training, setTraining] = useState([]);
@@ -46,7 +47,7 @@ const Skills = () => {
 
   // Handler for pressing Enter key
   const handleKeyPress = (e) => {
-    if (e.key === "Enter" || e.key === " " || e.key === ",") {
+    if (e.key === "Enter" ||  e.key === ",") {
       e.preventDefault(); // Prevent form submission
       handleAddSkill(); // Call the handleAddSkill function
     }
@@ -76,7 +77,7 @@ const Skills = () => {
 
   // Handler for pressing Enter key
   const handleKeyPressTraining = (e) => {
-    if (e.key === "Enter" || e.key === " " || e.key === ",") {
+    if (e.key === "Enter" ||  e.key === ",") {
       e.preventDefault(); // Prevent form submission
       handleAddSkillTraining(); // Call the handleAddSkill function
     }
@@ -106,7 +107,7 @@ const Skills = () => {
 
   // Handler for pressing Enter key
   const handleKeyPressEmployee = (e) => {
-    if (e.key === "Enter" || e.key === " " || e.key === ",") {
+    if (e.key === "Enter" ||  e.key === ",") {
       e.preventDefault(); // Prevent form submission
       handleAddSkillEmployee(); // Call the handleAddSkill function
     }
@@ -154,7 +155,7 @@ const Skills = () => {
   useEffect(() => {
     getResumeDetails();
   }, []);
-
+console.log(resumeDataSkills)
   return (
     <>
       {!resumeDataSkills.length > 0 || !resumeDataTraining.length > 0 ? (
@@ -167,7 +168,6 @@ const Skills = () => {
                 <br />
                 <span className="exInfo"> Ex: HTML,CSS,React....</span>
               </p>
-
               <legend>Key Skills</legend>
               <input
                 className="skillsInput"

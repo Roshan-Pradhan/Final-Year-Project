@@ -11,6 +11,7 @@ import Home from "./DashBoard/Home"
 import CompanyDetails from "./DashBoardProvider/CompanyDetails";
 import ProviderJob from "./DashBoardProvider/ProviderJob";
 import SingleJobPage from "./JOBPAGES/SingleJobPage";
+import CompanyHomePage from "./DashBoardProvider/CompanyHomePage";
 const App = () => {
   const [homeData, setHomeData] = useState("");
   const [fromLogin, setFromLogin] = useState("");
@@ -32,18 +33,9 @@ const App = () => {
       )}
 
       <Routes>
-        <Route
-          path="/"
-          element={isLoggedIn === "true" ? <Home /> : <LandingPage />}
-        >
-          {" "}
-        </Route>
-        <Route
-          path="/home"
-          element={isLoggedIn === "true" ? <Home /> : <LandingPage />}
-        >
-          {" "}
-        </Route>
+      
+      <Route path="/singleJobPage" element={<LandingPage/>}></Route> 
+      
         <Route exact path="/register" element={<Register />}>
           {" "}
         </Route>
@@ -59,6 +51,18 @@ const App = () => {
 
         {loggedInUserType === "seeker" ? (
           <>
+            <Route
+          path="/"
+          element={isLoggedIn === "true" ? <Home /> : <LandingPage />}
+        >
+          {" "}
+        </Route>
+           <Route
+          path="/home"
+          element={isLoggedIn === "true" ? <Home /> : <LandingPage />}
+        >
+          {" "}
+        </Route>
             <Route
               path="/userProfile"
               element={
@@ -76,6 +80,23 @@ const App = () => {
           </>
         ) : (
           <>
+            <Route
+          path="/"
+          element={isLoggedIn === "true" ? <CompanyHomePage /> : <LandingPage />}
+        >
+        </Route>
+          <Route
+              path="/home"
+              element={
+                isLoggedIn === "true" ? (
+                  <CompanyHomePage  />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            >
+              {" "}
+            </Route>
             <Route
               path="/userProfile"
               element={

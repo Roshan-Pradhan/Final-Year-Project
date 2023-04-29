@@ -95,7 +95,7 @@ const Navbar = ({ homeData,loggedInUserType }) => {
      />
    )}
    <NavLink
-     to="/"
+     to="/logout"
      className="MenuHome"
      style={({ isActive }) =>
        isActive ? { color: "red" } : { color: "black" }

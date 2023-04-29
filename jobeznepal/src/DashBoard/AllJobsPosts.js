@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 
 const AllJobsPosts = ({totalJobs}) => {
     const [jobID, setJobID] = useState(null);
-console.log(totalJobs)
     const navigate = useNavigate();
 
     const handleTitleClick = (jobID) => {

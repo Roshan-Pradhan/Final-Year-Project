@@ -15,7 +15,7 @@ const upload = multer({ storage: storage })
 const router = express.Router();
 
 
-const {Register, Login, verifyToken, getUser, userMoreInfo, getUserExtraInfo, verifyEMail, educationDetails, getUserEducation, userResume, userResumeData, getCompanyExtraInfo, companyMoreInfo, addJobs, getPostedJobs, getSingleJobs, getOpenedJob, publicCompanyExtraInfo, getRcmndJobs, getUserSkills, getUserQualification, updateProfile, updateCompanyProfile, getPostedJobswithID, editSinglejob, deleteSinglejob} = require ("../controllers/userController")
+const {Register, Login, verifyToken, getUser, userMoreInfo, getUserExtraInfo, verifyEMail, educationDetails, getUserEducation, userResume, userResumeData, getCompanyExtraInfo, companyMoreInfo, addJobs, getPostedJobs, getSingleJobs, getOpenedJob, publicCompanyExtraInfo, getRcmndJobs, getUserSkills, getUserQualification, updateProfile, updateCompanyProfile, getPostedJobswithID, editSinglejob, deleteSinglejob, appliedUserDetails, allApplicants, applicantDatWithID, getAppliedJob} = require ("../controllers/userController")
 
 router.post("/register",Register)
 router.get("/users/:id/verify/:token",verifyEMail)
@@ -66,7 +66,17 @@ router.put("/editSinglejob",editSinglejob)
 
 //--------------------------------------------delete
 
-router.delete("/deleteSinglejob/:jobsID",deleteSinglejob)
+router.delete("/deleteSinglejob/:deleteJobID",deleteSinglejob)
+
+
+//------------------------appplicants
+router.post("/appliedUserDetails",appliedUserDetails)
+
+router.get("/allApplicants",allApplicants)
+
+router.get("/applicantDatWithID/:ids",applicantDatWithID)
+
+router.get("/getAppliedJob/:ids",getAppliedJob)
 
 
 module.exports = router;

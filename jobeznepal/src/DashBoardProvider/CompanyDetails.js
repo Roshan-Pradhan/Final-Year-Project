@@ -30,8 +30,6 @@ const CompanyDetails = ({ setHomeData,setCompanyInfo }) => {
   const [companyType, setCompanyType] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(true);
   const [modalOpen, setModalOpen] = useState(true);
-  const [companyIDBackend, setCompanyIDBackend] = useState('')
-  const [companyNameBackend, setCompanyNameBackend] = useState('')
 const [error, setError] = useState('')
 
   //loggedinuserID
@@ -106,8 +104,6 @@ const [error, setError] = useState('')
         headers: { "Content-Type": "multipart/form-data" },
       });
       message.success(sendProfileDataImg.data.Message);
-      setCompanyIDBackend(sendProfileDataImg.data.companyProfileId);
-      setCompanyNameBackend(sendProfileDataImg.data.companyName);
       fetchCompanyExtraInfo();
       setModalOpen(false);
 
@@ -305,7 +301,7 @@ const [error, setError] = useState('')
 
 {loggedInCompanyExtraData.length !==0 && 
 
-     <CompanyPage companyIDBackend={companyIDBackend} companyNameBackend={companyNameBackend} loggedInCompanyExtraData={loggedInCompanyExtraData} />
+     <CompanyPage loggedInCompanyExtraData={loggedInCompanyExtraData} />
 }
     
     </>

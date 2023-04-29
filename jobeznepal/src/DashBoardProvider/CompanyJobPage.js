@@ -26,9 +26,8 @@ const CompanyJobPage = ({ companyInfo }) => {
   const [error, setError] = useState("");
   const [counter, setCounter] = useState(250);
   const [qualificationField, setQualificationField] = useState(""); // State to store the input value
- 
   
-
+const [deleteJobID, setdeleteJobID] = useState()
 
 
   let loggedInUserID;
@@ -199,17 +198,24 @@ const [jobsData, setJobsData] = useState({});
   };
   console.log(jobsData)
 
-const handleDeletejobs = async(jobID)=>{
+const handleDeletegetjobsId = async(jobID)=>{
 setmodelOpen2(true)
-try {
-  const deleteJobs = await Api.delete(`/deleteSinglejob/${jobID}`)
-message.success(deleteJobs.data.Mesaage);
-postedJobs()
+setdeleteJobID(jobID)
+// handleDeletejobs(jobID)
+}
 
-} catch (error) {
-  console.log(error)
-}
-}
+const handleDeletejobs = async()=>{
+  setmodelOpen2(true)
+  try {
+    const deleteJobs = await Api.delete(`/deleteSinglejob/${deleteJobID}`)
+  message.success(deleteJobs.data.Mesaage);
+  postedJobs()
+  setmodelOpen2(false)
+  } catch (error) {
+    console.log(error)
+    message.error(error.response.data);
+  }
+  }
 
 const handleSubmit = async (e) => {
   let jsonSkills = JSON.stringify(skills);
@@ -269,7 +275,7 @@ try {
                 <h1 className="MainTitle" onClick={()=>handleTitleClick(item._id)}>{validjobData.companyName}</h1>
                 <div className="titlebtns">
                 <button onClick={()=>handleEditClick(item._id)}><EditOutlined /></button>
-                <button onClick={()=>handleDeletejobs(item._id)}><DeleteOutlined /></button>
+                <button onClick={()=>handleDeletegetjobsId(item._id)}><DeleteOutlined /></button>
                 </div>
                 </div>
                   <div className="jobaddress">

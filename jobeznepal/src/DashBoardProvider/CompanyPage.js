@@ -8,8 +8,6 @@ import Api from "../utills/Api";
 
 const CompanyPage = ({
   loggedInCompanyExtraData,
-  companyIDBackend,
-  companyNameBackend,
 }) => {
 console.log(loggedInCompanyExtraData)
   const [inputEdit, setInputEdit] = useState(true);
@@ -225,8 +223,8 @@ console.log(loggedInCompanyExtraData)
                   <h4 className="hrLines">Post Jobs</h4>
                   <br />
                   <PostJobs
-                    companyIDBackend={companyIDBackend}
-                    companyNameBackend={companyNameBackend}
+                    companyIDBackend={loggedInCompanyExtraData._id}
+                    companyNameBackend={loggedInCompanyExtraData.companyName}
                     loggedInCompanyExtraData={loggedInCompanyExtraData}
                   />
                 </div>

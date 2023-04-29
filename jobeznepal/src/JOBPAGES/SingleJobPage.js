@@ -14,7 +14,10 @@ import { CompanyProfile } from "../utills/CompanyProfile";
 import "./SingleJobPage.css";
 import "../DashBoardProvider/CompanyJobPage.css";
 import { PublicCompanyProfile } from "../utills/PublicCompanyProfile";
+import { idFunction } from "../utills/LoggedInUserID";
+import { message } from "antd";
 const SingleJobPage = () => {
+  const loggedInUserID = idFunction();
   const companyInfo = CompanyProfile();
   const publicCompanyInfo = PublicCompanyProfile();
   const [isLoading, setIsLoading] = useState(false);
@@ -31,13 +34,14 @@ const SingleJobPage = () => {
     }
     setIsLoading(false);
   };
-  const publicCompanyInfoFilter = publicCompanyInfo?.filter(data=>data._id === singleJobDetails?.companyId);
+  const publicCompanyInfoFilter = publicCompanyInfo?.filter(
+    (data) => data._id === singleJobDetails?.companyId
+  );
   useEffect(() => {
     if (jobID) {
       JobsDetails();
     }
   }, [jobID]);
-
   // Parse the JSON-encoded strings and access individual properties
   const jobData =
     singleJobDetails?.jobsData && singleJobDetails.jobsData.length > 0
@@ -62,6 +66,37 @@ const SingleJobPage = () => {
     day: "numeric",
     year: "numeric",
   });
+  const dateString = singleJobDetails?.createdAt;
+  const date = new Date(dateString);
+  date.setDate(date.getDate() + 15);
+  const futureDate = date.toLocaleString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const handleApplyClick = async (applyJobID) => {
+    if (applyJobID && loggedInUserID) {
+      console.log("hello");
+      try {
+        const applyDetails = await Api.post("/appliedUserDetails", {
+          appliedCompany: publicCompanyInfoFilter[0]?._id,
+          applyJobID,
+          loggedInUserID,
+        });
+        message.success({
+          content: applyDetails.data.Message,
+          duration: 3,
+        });
+      } catch (error) {
+        message.error({
+          content: error.response.data,
+          duration: 3,
+        });
+      }
+    }
+    // console.log(applyJobID,loggedInUserID)
+  };
 
   return (
     <>
@@ -76,20 +111,19 @@ const SingleJobPage = () => {
       ) : (
         <div className="companyDetails">
           <div className="companyImg">
-              <img
-                src={`http://localhost:8001${publicCompanyInfoFilter[0]?.profileImg}`}
-                alt={publicCompanyInfoFilter.companyName}
-                className="singlePageBG"
-              />
-           
+            <img
+              src={`http://localhost:8001${publicCompanyInfoFilter[0]?.profileImg}`}
+              alt={publicCompanyInfoFilter.companyName}
+              className="singlePageBG"
+            />
           </div>
           <br />
-          <div className="postedJobsDetails singleJObPageDetails ">
+          <div className=" singleJObPageDetails ">
             <h5 className="subTitleJob">Job Specification</h5>
-            <div className="singleJobDetails singlePagepostedJOb">
+            <div className=" singlePagepostedJOb">
               <div className="titleanddate">
                 <h5 className="subTitle expiryDate">
-                  Apply Before: {currentDate}
+                  Apply Before: {futureDate}
                 </h5>
                 <h1 className="MainTitle">{jobData.companyName}</h1>
               </div>
@@ -185,7 +219,7 @@ const SingleJobPage = () => {
                   {skills.map((difSkills, index) => {
                     return (
                       <>
-                       {difSkills.length !== 0 ? (
+                        {difSkills.length !== 0 ? (
                           <div className="diffSkilss" key={index}>
                             <h5 className="mainText">
                               {difSkills.name.toUpperCase()}
@@ -194,7 +228,6 @@ const SingleJobPage = () => {
                         ) : (
                           <h5 className="mainText">Not Defined</h5>
                         )}
-                    
                       </>
                     );
                   })}
@@ -215,8 +248,14 @@ const SingleJobPage = () => {
                 </h5>
               </div>
             </div>
+            <button
+              className="applyBtn"
+              onClick={() => handleApplyClick(singleJobDetails?._id)}
+            >
+              Apply Now
+            </button>
             <h5 className="subTitleJob">Job Description</h5>
-            <div>
+            <div className="jobdescriptionsingle">
               {jobData.myTextarea !== null &&
               jobData.myTextarea !== undefined ? (
                 <ul>

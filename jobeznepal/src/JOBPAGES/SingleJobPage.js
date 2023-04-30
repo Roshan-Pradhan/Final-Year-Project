@@ -23,8 +23,12 @@ const SingleJobPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { jobID } = useParams();
   const [singleJobDetails, setSingleJobDetails] = useState([]); // Change initial state to null
-
+  const loggedInUser = JSON.parse(
+    window.localStorage.getItem("jobeznepalUser")
+  );
+  let loggedInUserType = loggedInUser.doUserExist.usertype;
   const JobsDetails = async () => {
+   
     setIsLoading(true);
     try {
       const getJobsDetails = await Api.get(`/getSingleJobs/${jobID}`);
@@ -248,12 +252,14 @@ const SingleJobPage = () => {
                 </h5>
               </div>
             </div>
+            {loggedInUserType !=="provider" && 
             <button
               className="applyBtn"
               onClick={() => handleApplyClick(singleJobDetails?._id)}
             >
               Apply Now
             </button>
+}
             <h5 className="subTitleJob">Job Description</h5>
             <div className="jobdescriptionsingle">
               {jobData.myTextarea !== null &&

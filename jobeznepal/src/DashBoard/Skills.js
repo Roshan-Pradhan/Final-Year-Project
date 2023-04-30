@@ -158,7 +158,7 @@ const Skills = () => {
 console.log(resumeDataSkills)
   return (
     <>
-      {!resumeDataSkills.length > 0 || !resumeDataTraining.length > 0 ? (
+      {!resumeDataSkills.length > 0  ? (
         <form className="skillsForm" onSubmit={handleSubmit}>
           <div className="formItem">
             <fieldset>
@@ -288,20 +288,18 @@ console.log(resumeDataSkills)
           </button>
         </form>
       ) : (
-        <div
-          style={{
-            display: "flex",
-            justifyContent:"space-between",
-            margin: "0px 75px",
-          }}
+        <div className="showSkills"
+         
         >
           <div className="parseSkill">
             <h4>Key Skills</h4>
+            <div className="skilssItems">
             {resumeDataSkills.map((item) => (
               <div className="subSkill" key={item.id}>
                 <li>{item.name}</li>
               </div>
             ))}
+            </div>
           </div>
           <div className="parseSkill">
             <h4>Training Details</h4>

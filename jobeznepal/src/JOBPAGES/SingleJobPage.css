@@ -21,7 +21,7 @@
 }
 .subTitleJob{
     font-size: 18px;
-    text-decoration: underline solid #F13C20 50%;
+    border-bottom: 4px solid #F13C20;
 }
 .titleanddate{
     display: flex;

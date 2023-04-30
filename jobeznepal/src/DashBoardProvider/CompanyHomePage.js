@@ -20,6 +20,7 @@ const [resumeDataSkills, setResumeDataSkills] = useState([]);
 const [modelOpen, setModelOpen] = useState(false)
   const applicantsDatas = GetApplicants();
   const activeCompany = CompanyProfile();
+  
   const activeCompanyApplicants = applicantsDatas?.filter(
     (item) => item.appliedCompany === activeCompany?._id
   );
@@ -118,10 +119,10 @@ const [modelOpen, setModelOpen] = useState(false)
           <h4>Total Applicants</h4>
           <h4>{activeCompanyApplicants.length}</h4>
         </div>
-        <div className="totalapplicants">
+        {/* <div className="totalapplicants">
           <h4>JOBA Applicants</h4>
           <h4>{matchingJobApplicants.length}</h4>
-        </div>
+        </div> */}
       </div>
       <h4 className="hrLines">Applicants Details</h4>
 
@@ -216,6 +217,9 @@ const [modelOpen, setModelOpen] = useState(false)
 
         </Modal>
         )}
+        <div className="adjust" style={{marginBottom:"13%"}}>
+
+        </div>
     </>
   );
 };

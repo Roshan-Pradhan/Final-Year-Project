@@ -1,26 +1,26 @@
-*{
+* {
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
   overflow-x: hidden;
 }
-label{
+label {
   font-size: 16px;
 }
-input[type=text]{
+input[type="text"] {
   padding-left: 5px;
   padding-bottom: 2px;
 }
-button{
+button {
   cursor: pointer;
 }
-.customLoading{
+.customLoading {
   display: flex;
   justify-content: center;
   align-items: center;
-  height:90vh;
+  height: 90vh;
 }
-.customReactLoading{
+.customReactLoading {
   height: 75px !important;
 }
 :where(.css-dev-only-do-not-override-htwhyh).ant-btn {
@@ -30,4 +30,80 @@ button{
 }
 fieldset {
   height: auto !important;
+}
+@media (max-width: 767px) {
+  .registerPage {
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 20px;
+  }
+  .login-form {
+    width: 90% !important;
+  }
+  .logoIcon {
+    font-size: 50px !important;
+  }
+  .LogoBar h5 {
+    font-weight: 600 !important;
+    font-size: 20px !important;
+  }
+
+  .hrLines:before {
+    width: 25% !important;
+  }
+
+  .hrLines:after {
+    width: 25% !important;
+  }
+  .welcomeScreen {
+    flex-direction: column;
+  }
+  .profileImg {
+    margin-left: 0 !important;
+  }
+  .personalDetails h3 {
+    margin-bottom: 5px !important;
+  }
+  .customForm, .selectform{
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: wrap !important;
+  }
+  .editButton{
+  margin-left: 80% !important;
+  }
+  .educationData{
+    display: grid !important;
+    grid-template-columns: auto auto !important;
+    gap: 10px !important;
+    
+  }
+  .showSkills{
+    flex-direction: column;
+}
+.skilssItems{
+  display: flex;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  column-gap: 20px;
+}
+.searchJobs{
+  width: 250px !important;
+}
+.searchButton{
+  width: 80px !important;
+}
+.filterButton{
+  font-size: 15px !important;
+}
+.active{
+  font-size: 15px !important;
+}
+.filterField{
+  justify-content: space-evenly !important;
+}
+.postedJobsDetails{
+  justify-content: center;
+  margin-top: 10px;
+}
 }

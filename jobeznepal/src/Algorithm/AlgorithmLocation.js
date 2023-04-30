@@ -35,7 +35,7 @@ const termFrequency = locationJob.map((document) => {
   return { id: document.id, counts };
 });
 
-
+console.log(termFrequency)
 // Calculate the IDF for each word
 const idf = {};
 const N = locationJob.length;
@@ -53,7 +53,7 @@ splitwordLocation.forEach((w) => {
   }
 });
 
-
+console.log(idf)
 // Calculate the TF-IDF for each document and word
 const tfIdf = termFrequency.map((document) => {
   const tfidf = {};
@@ -64,12 +64,13 @@ const tfIdf = termFrequency.map((document) => {
   return { id: document.id, tfidf };
 });
 
-
+console.log(tfIdf)
 // Calculate the cosine similarity between the word and each document
 const wordVector = splitwordLocation.map((w) => {
   const idfValue = idf[w] ? idf[w] : 0;
   return idfValue;
 });
+console.log(wordVector)
 
 const cosineSimilarity = tfIdf.map((document) => {
   const docVector = splitwordLocation.map((w) => {
@@ -102,11 +103,12 @@ const cosineSimilarity = tfIdf.map((document) => {
   return { id: document.id, similarity };
 });
 
-// console.log(cosineSimilarity);
+console.log(cosineSimilarity);
+const calculateScore = cosineSimilarity.filter(item=>item.similarity>0.4)
 
   return (  
     <>
-    <JobBasedOnLocation recmndTitle={"Recommended For You Based On Your Location"} cosineSimilarity={cosineSimilarity} />
+    <JobBasedOnLocation recmndTitle={"Recommended For You Based On Your Location"} cosineSimilarity={calculateScore} />
     </>
   )
 }

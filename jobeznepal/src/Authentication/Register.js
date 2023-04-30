@@ -82,6 +82,7 @@ const Register = () => {
             <h2>Register Form</h2>
             <Form.Item
               name="username"
+              className="registerFormItem"
               // className="formItem"
               rules={[
                 {

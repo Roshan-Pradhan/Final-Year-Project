@@ -1,13 +1,13 @@
 .locationRECOMMEND{
     display: flex;
     flex-direction: row;
-    align-items: center;
     column-gap: 10px;
     align-items: center;
-    text-decoration: underline solid #F13C20 50%;
+    border-bottom: 4px solid #F13C20;
     padding: 10px 0px;
-    /* background-color: #F13C20; */
     margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .recomIcon{

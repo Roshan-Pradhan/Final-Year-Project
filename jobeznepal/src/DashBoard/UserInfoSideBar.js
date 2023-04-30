@@ -257,17 +257,6 @@ console.log(userEditData)
           </>
         </Content>
       </Layout>
-      <Footer
-        style={{
-          background: "#EFE2BA",
-          padding: "20px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        Namaste Ma Footer
-      </Footer>
     </>
   );
 };

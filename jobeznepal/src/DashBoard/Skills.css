@@ -83,3 +83,9 @@ input[type=text]{
         font-size: 15px;
         background-color:#EFE2BA;
 }
+.showSkills{
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 75px;
+       
+}

@@ -21,10 +21,10 @@
 .active{
     font-size: 17px;
     cursor: pointer;
-    text-decoration: underline solid #F13C20 50%;
+    border-bottom: 4px solid #F13C20;
 }
 .filterButton:hover{
-    text-decoration: underline solid #F13C20 50%;
+    border-bottom: 4px solid #F13C20;
 }
 
 .searchJobs{
@@ -32,13 +32,11 @@
     padding: 8px !important;
     width: 350px;
     border-radius: 8px;
-
 }
 .searchView{
     display: flex;
     flex-direction: row;
     column-gap: 10px;
-
 }
 .searchButton{
     border: none;

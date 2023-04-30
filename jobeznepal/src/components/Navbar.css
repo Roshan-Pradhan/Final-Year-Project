@@ -38,8 +38,12 @@
 
 }
 .MenuHome{
-    text-decoration: none;
+    text-decoration: none !important;
     color: black;
+    font-weight: 500;
+}
+.MenuHome:hover{
+    border-bottom:2px solid #F13C20 ;
 }
 .ProfileBar{
 

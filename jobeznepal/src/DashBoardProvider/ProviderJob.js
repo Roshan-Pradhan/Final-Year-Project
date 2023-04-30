@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 
 const ProviderJob = () => {
   const companyInfo = CompanyProfile();
+  console.log(companyInfo)
 
   return (
     <>

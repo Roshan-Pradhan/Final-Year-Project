@@ -28,8 +28,8 @@ fieldset{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
   margin: 5px 75px;
-
 }
 .educationItem{
   font-weight: 600;

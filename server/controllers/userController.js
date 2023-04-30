@@ -14,6 +14,8 @@ const crypto = require("crypto");
 
 export const Register = async (req, res) => {
   const emailRegex = /\S+@\S+\.\S+/;
+  const passwordRegex = /^(?=.*\d).{8,}$/;
+
   const { username, mobilenumber, email, gender, usertype, password } =
     req.body;
 
@@ -34,7 +36,9 @@ export const Register = async (req, res) => {
   if (!emailRegex.test(email)) {
     return res.status(400).send("Invalid email address");
   }
-
+  if (!passwordRegex.test(password)) {
+    return res.status(400).send("Invalid password");
+  }
   const hashedpassword = bcrypt.hashSync(password);
 
   const saveUser = new registeredUser({

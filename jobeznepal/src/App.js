@@ -12,6 +12,7 @@ import CompanyDetails from "./DashBoardProvider/CompanyDetails";
 import ProviderJob from "./DashBoardProvider/ProviderJob";
 import SingleJobPage from "./JOBPAGES/SingleJobPage";
 import CompanyHomePage from "./DashBoardProvider/CompanyHomePage";
+import FooterGlobal from "./components/FooterGlobal";
 const App = () => {
   const [homeData, setHomeData] = useState("");
   const [fromLogin, setFromLogin] = useState("");
@@ -29,7 +30,7 @@ const App = () => {
   return (
     <BrowserRouter>
       {isLoggedIn === "true" && (
-        <Navbar homeData={homeData} loggedInUserType={loggedInUserType} />
+        <Navbar homeData={homeData} companyInfo={companyInfo} loggedInUserType={loggedInUserType} />
       )}
 
       <Routes>
@@ -124,6 +125,10 @@ const App = () => {
           </>
         )}
       </Routes>
+      {isLoggedIn === "true" && (
+        <FooterGlobal/>
+        
+      )}
     </BrowserRouter>
   );
 };

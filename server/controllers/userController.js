@@ -433,6 +433,8 @@ export const getOpenedJob = async (req, res) => {
     return res.status(404).json({ Message: "No jobs found" });
   }
 
+  findPostedJobs = findPostedJobs.filter(item => item.isApproved === true)
+
   return res.status(200).json({ findPostedJobs });
 };
 
@@ -714,3 +716,34 @@ export const getAppliedJob =async(req,res)=>{
     res.status(500).json({ message: "Error fetching applicants data" });
   }
 }
+
+export const approveJob = async (req, res) => {
+  const { id } = req.params;
+  console.log(id)
+  try {
+    const approveUpdate = await addJobsDB.findByIdAndUpdate(
+      id,
+      { isApproved: true },
+      { new: true } // returns the updated document
+    );
+    if (!approveUpdate) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+    res.status(200).json({ message: "Job approved" });
+
+  } catch (error) {
+    res.status(500).json({ message: "Error approving job" });
+  }
+};
+export const getOpenedJobAdmin = async (req, res) => {
+  let findPostedJobs;
+  try {
+    findPostedJobs = await addJobsDB.find({});
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!findPostedJobs) {
+    return res.status(404).json({ Message: "No jobs found" });
+  }
+  return res.status(200).json({ findPostedJobs });
+};

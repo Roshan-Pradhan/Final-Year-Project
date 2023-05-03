@@ -41,6 +41,11 @@ const jobPostSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "companyProfile", // Reference to companyProfile
   },
+
+  isApproved:{
+    type:Boolean,
+    default:false
+  },
   createdAt: {
     type: Date,
     default: Date.now, // Set the default value to the current date

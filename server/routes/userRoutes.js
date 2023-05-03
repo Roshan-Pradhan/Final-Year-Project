@@ -15,7 +15,7 @@ const upload = multer({ storage: storage })
 const router = express.Router();
 
 
-const {Register, Login, verifyToken, getUser, userMoreInfo, getUserExtraInfo, verifyEMail, educationDetails, getUserEducation, userResume, userResumeData, getCompanyExtraInfo, companyMoreInfo, addJobs, getPostedJobs, getSingleJobs, getOpenedJob, publicCompanyExtraInfo, getRcmndJobs, getUserSkills, getUserQualification, updateProfile, updateCompanyProfile, getPostedJobswithID, editSinglejob, deleteSinglejob, appliedUserDetails, allApplicants, applicantDatWithID, getAppliedJob} = require ("../controllers/userController")
+const {Register, Login, verifyToken, getUser, userMoreInfo, getUserExtraInfo, verifyEMail, educationDetails, getUserEducation, userResume, userResumeData, getCompanyExtraInfo, companyMoreInfo, addJobs, getPostedJobs, getSingleJobs, getOpenedJob, publicCompanyExtraInfo, getRcmndJobs, getUserSkills, getUserQualification, updateProfile, updateCompanyProfile, getPostedJobswithID, editSinglejob, deleteSinglejob, appliedUserDetails, allApplicants, applicantDatWithID, getAppliedJob, approveJob, getOpenedJobAdmin} = require ("../controllers/userController")
 
 router.post("/register",Register)
 router.get("/users/:id/verify/:token",verifyEMail)
@@ -40,10 +40,13 @@ router.post("/addJobs",addJobs)
 
 
 router.get("/getPostedJobs/:loggedInUserID",getPostedJobs)
+
 router.get("/getPostedJobswithID/:jobID",getPostedJobswithID)
 
-
 router.get("/getOpenedJob",getOpenedJob)
+
+router.get("/getOpenedJobAdmin",getOpenedJobAdmin)
+
 
 
 router.get("/getSingleJobs/:jobID",getSingleJobs)
@@ -63,6 +66,9 @@ router.put("/updateProfile",updateProfile)
 router.put("/updateCompanyProfile",updateCompanyProfile)
 
 router.put("/editSinglejob",editSinglejob)
+
+router.put("/approveJob/:id",approveJob)
+
 
 //--------------------------------------------delete
 

@@ -7,9 +7,11 @@ import {
   faBars,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { Modal } from "antd";
 
 const Navbar = ({ homeData, companyInfo, loggedInUserType }) => {
   const [burgerClick, setBurgerClick] = useState(false);
+  const [imageClicked, setimageClicked] = useState(false)
   const logOut = () => {
     window.localStorage.clear();
     window.location.href = "./";
@@ -73,13 +75,15 @@ const Navbar = ({ homeData, companyInfo, loggedInUserType }) => {
               >
                 Profile
               </NavLink>
+             
             </div>
             <div className=" MenuBarProfile">
               {homeData && (
                 <img
                   src={`http://localhost:8001${homeData.finduserExtraData.profileImg}`}
-                  style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-                  alt="img"
+                  style={{ width: "40px", height: "40px", borderRadius: "50%",objectFit:"cover" }}
+                  alt={homeData.finduserExtraData.userName}
+                  onClick={()=>setimageClicked(!imageClicked)}
                 />
               )}
               <NavLink
@@ -93,6 +97,8 @@ const Navbar = ({ homeData, companyInfo, loggedInUserType }) => {
                 Logout
               </NavLink>
             </div>
+
+           
 
             <div
               className="MobileMenu"
@@ -108,6 +114,18 @@ const Navbar = ({ homeData, companyInfo, loggedInUserType }) => {
                 </>
               )}
             </div>
+            {imageClicked &&
+            <div className="customeModel">
+              <NavLink
+                to="/appliedJobs"
+                className="MenuHome"
+                
+                onClick={()=>setimageClicked(false)}
+              >
+                Applied Jobs
+              </NavLink>
+            </div>
+            }
           </div>
         </>
       )}
@@ -176,6 +194,66 @@ const Navbar = ({ homeData, companyInfo, loggedInUserType }) => {
                   alt="img"
                 />
               )}
+              <NavLink
+                to="/"
+                className="MenuHome"
+                style={({ isActive }) =>
+                  isActive ? { color: "red" } : { color: "black" }
+                }
+                onClick={() => logOut()}
+              >
+                Logout
+              </NavLink>
+            </div>
+
+            <div
+              className="MobileMenu"
+              onClick={() => setBurgerClick(!burgerClick)}
+            >
+              {burgerClick === false ? (
+                <>
+                  <FontAwesomeIcon icon={faBars} size="xl" />
+                </>
+              ) : (
+                <>
+                  <FontAwesomeIcon icon={faXmark} size="xl" />
+                </>
+              )}
+            </div>
+          </div>
+        </>
+      )}
+
+       {loggedInUserType === "admin" && (
+        <>
+          <div className="MainBar">
+            <div className="LogoBar">
+              <Link to="/" className="LogoBarItems">
+                <FontAwesomeIcon icon={faMagnifyingGlassArrowRight} size="xl" />
+                <h5>JobEzNepal</h5>
+              </Link>
+            </div>
+            <div className="MenuBar ">
+              <NavLink
+                to="/userProfile"
+                className="MenuHome"
+                style={({ isActive }) =>
+                  isActive
+                    ? {
+                        color: "red",
+                        borderBottom: "2px solid red",
+                        borderRadius: "2px",
+                      }
+                    : { color: "black" }
+                }
+              >
+                Home
+              </NavLink>
+             
+             
+            </div>
+            <div className=" MenuBarProfile">
+              
               <NavLink
                 to="/"
                 className="MenuHome"

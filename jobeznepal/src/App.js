@@ -7,12 +7,14 @@ import Navbar from "./components/Navbar";
 import AllJobs from "./DashBoard/AllJobs";
 import Profile from "./DashBoard/Profile";
 import VerifyMail from "./Authentication/VerifyMail";
-import Home from "./DashBoard/Home"
+import Home from "./DashBoard/Home";
 import CompanyDetails from "./DashBoardProvider/CompanyDetails";
 import ProviderJob from "./DashBoardProvider/ProviderJob";
 import SingleJobPage from "./JOBPAGES/SingleJobPage";
 import CompanyHomePage from "./DashBoardProvider/CompanyHomePage";
 import FooterGlobal from "./components/FooterGlobal";
+import AppliedJobs from "./DashBoard/AppliedJobs";
+import Admin from "./components/Admin";
 const App = () => {
   const [homeData, setHomeData] = useState("");
   const [fromLogin, setFromLogin] = useState("");
@@ -30,15 +32,23 @@ const App = () => {
   return (
     <BrowserRouter>
       {isLoggedIn === "true" && (
-        <Navbar homeData={homeData} companyInfo={companyInfo} loggedInUserType={loggedInUserType} />
+        <Navbar
+          homeData={homeData}
+          companyInfo={companyInfo}
+          loggedInUserType={loggedInUserType}
+        />
       )}
 
       <Routes>
-      
-      <Route path="/singleJobPage" element={<LandingPage/>}></Route> 
-      
+      <Route
+              path="/"
+              element={isLoggedIn === "true" ? <Home /> : <LandingPage />}
+            >
+              {" "}
+            </Route>
+        <Route path="/singleJobPage" element={<LandingPage />}></Route>
+
         <Route exact path="/register" element={<Register />}>
-          {" "}
         </Route>
         <Route
           exact
@@ -46,24 +56,36 @@ const App = () => {
           element={<Login setFromLogin={setFromLogin} />}
         ></Route>
         <Route path="/users/:id/verify/:token" element={<VerifyMail />}></Route>
-        <Route path="/singleJobPage/:jobID" element= { <SingleJobPage companyInfo={companyInfo}/>}></Route>
+        <Route
+          path="/singleJobPage/:jobID"
+          element={<SingleJobPage companyInfo={companyInfo} />}
+        ></Route>
 
         {/* to navigate between job provider and seeker */}
-
-        {loggedInUserType === "seeker" ? (
+        {loggedInUserType === "admin" && (
           <>
             <Route
-          path="/"
-          element={isLoggedIn === "true" ? <Home /> : <LandingPage />}
-        >
-          {" "}
-        </Route>
-           <Route
-          path="/home"
-          element={isLoggedIn === "true" ? <Home /> : <LandingPage />}
-        >
-          {" "}
-        </Route>
+              path="/userProfile"
+              element={isLoggedIn === "true" ? <Admin /> : <LandingPage />}
+            >
+            </Route>
+          </>
+        )}
+
+        {loggedInUserType === "seeker" && (
+          <>
+            <Route
+              path="/"
+              element={isLoggedIn === "true" ? <Home /> : <LandingPage />}
+            >
+              {" "}
+            </Route>
+            <Route
+              path="/home"
+              element={isLoggedIn === "true" ? <Home /> : <LandingPage />}
+            >
+              {" "}
+            </Route>
             <Route
               path="/userProfile"
               element={
@@ -76,21 +98,29 @@ const App = () => {
             ></Route>
             <Route
               path="/alljobs"
-              element={isLoggedIn === "true" ? <AllJobs   /> : <LandingPage />}
+              element={isLoggedIn === "true" ? <AllJobs /> : <LandingPage />}
+            ></Route>
+            <Route
+              path="/appliedJobs"
+              element={
+                isLoggedIn === "true" ? <AppliedJobs /> : <LandingPage />
+              }
             ></Route>
           </>
-        ) : (
+        )}
+        {loggedInUserType === "provider" && (
           <>
             <Route
-          path="/"
-          element={isLoggedIn === "true" ? <CompanyHomePage /> : <LandingPage />}
-        >
-        </Route>
-          <Route
+              path="/"
+              element={
+                isLoggedIn === "true" ? <CompanyHomePage /> : <LandingPage />
+              }
+            ></Route>
+            <Route
               path="/home"
               element={
                 isLoggedIn === "true" ? (
-                  <CompanyHomePage  />
+                  <CompanyHomePage />
                 ) : (
                   <Navigate to="/login" />
                 )
@@ -113,11 +143,7 @@ const App = () => {
             <Route
               path="/alljobs"
               element={
-                isLoggedIn === "true" ? (
-                  <ProviderJob   /> 
-                ) : (
-                  <LandingPage />
-                )
+                isLoggedIn === "true" ? <ProviderJob /> : <LandingPage />
               }
             >
               {" "}
@@ -125,10 +151,7 @@ const App = () => {
           </>
         )}
       </Routes>
-      {isLoggedIn === "true" && (
-        <FooterGlobal/>
-        
-      )}
+      {(isLoggedIn === "true" && loggedInUserType !=="admin") && <FooterGlobal />}
     </BrowserRouter>
   );
 };

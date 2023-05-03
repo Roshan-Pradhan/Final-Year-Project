@@ -3,20 +3,26 @@ import "./AllJobs.css";
 import { AllOpenedJobs } from "../utills/AllOpenedJobs";
 
 import AllJobsPosts from "./AllJobsPosts";
+import { SeekerAppliedJobs } from "../utills/SeekerAppliedJobs";
 
 const AllJobs = () => {
-
-
   const allOpenJobs = AllOpenedJobs();
+  const alreadyAppliedJob = SeekerAppliedJobs();
+
   const [totalJobs, setTotalJobs] = useState([]);
   const [activeHeading, setActiveHeading] = useState(0);
   const [showChipsLocation, setShowChipsLocation] = useState(false)
   const [showChipsCompany, setShowChipsCompany] = useState(false)
   const [searchTerm, setSearchTerm] = useState()
 
+  let filterAppliedJobs;
+  if(alreadyAppliedJob !==0) {
+     filterAppliedJobs = allOpenJobs?.filter((item)=>!alreadyAppliedJob.includes(item._id))
+  }
+
   useEffect(() => {
-    setTotalJobs(allOpenJobs);
-  }, [allOpenJobs]);
+    setTotalJobs(filterAppliedJobs);
+  }, [alreadyAppliedJob,allOpenJobs]);
 
   const districtCounts = allOpenJobs.reduce((acc, job) => {
     const { selectedValueDistrict } = job;
@@ -107,8 +113,6 @@ const handleSearchTerm =() =>{
   });
   setTotalJobs(filteredJobsData);
 }
-
-
 
   return (
     <>

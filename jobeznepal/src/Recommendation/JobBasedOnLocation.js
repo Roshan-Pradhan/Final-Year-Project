@@ -10,39 +10,49 @@ import {
   UsergroupAddOutlined,
 } from "@ant-design/icons";
 import ReactLoading from "react-loading";
+import { SeekerAppliedJobs } from "../utills/SeekerAppliedJobs";
 
 const JobBasedOnLocation = ({ cosineSimilarity,recmndTitle }) => {
   const navigate = useNavigate();
+  const alreadyAppliedJob = SeekerAppliedJobs();
 
   const similarJobs = cosineSimilarity.filter((item) => item.similarity > 0);
   const sortSimilarJobs = similarJobs.sort((a,b)=>b.similarity-a.similarity);
   const similarJobsIds = sortSimilarJobs.map((item) => item.id);
 
+  let filterAppliedJobs;
+  if(alreadyAppliedJob !==0 && similarJobsIds !==0){
+     filterAppliedJobs = similarJobsIds.filter((item)=>!alreadyAppliedJob.includes(item))
+  }
+
   const [getRecommendedJobs, setGetRecommendedJobs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [jobID, setJobID] = useState(null);
 
-  const fetchRecommendedJobs = async () => {
-    setLoading(true);
-    try {
-      const jobRequests = similarJobsIds.map((jobsID) =>
-        Api.get(`/getRcmndJobs/${jobsID}`)
-      );
-      const jobsData = await Promise.all(jobRequests);
-      const recommendedJobs = jobsData.map((result) => result.data.findjobs);
-      // console.log(recommendedJobs);
-      setGetRecommendedJobs(recommendedJobs);
-    } catch (error) {
-      console.log(error);
-    }
-    setLoading(false);
-  };
+  let fetchRecommendedJobs;
+  if(filterAppliedJobs !==0) {
+     fetchRecommendedJobs = async () => {
+      setLoading(true);
+      try {
+        const jobRequests = filterAppliedJobs?.map((jobsID) =>
+          Api.get(`/getRcmndJobs/${jobsID}`)
+        );
+        const jobsData = await Promise.all(jobRequests);
+        const recommendedJobs = jobsData.map((result) => result.data.findjobs);
+        // console.log(recommendedJobs);
+        setGetRecommendedJobs(recommendedJobs);
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+    };
+  }
 
-  // console.log(getRecommendedJobs)
+
 
   useEffect(() => {
     fetchRecommendedJobs();
-  }, [cosineSimilarity]);
+  }, [ cosineSimilarity]);
 
   const handleTitleClick = (jobID) => {
     setJobID(jobID);
@@ -64,7 +74,7 @@ const JobBasedOnLocation = ({ cosineSimilarity,recmndTitle }) => {
       ) : (
         
         <>
-        {getRecommendedJobs != 0 ? 
+        {getRecommendedJobs.length !== 0 ? 
         (
           <>
           <div className="locationRECOMMEND">

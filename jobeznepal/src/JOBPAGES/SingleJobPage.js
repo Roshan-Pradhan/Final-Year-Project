@@ -16,10 +16,13 @@ import "../DashBoardProvider/CompanyJobPage.css";
 import { PublicCompanyProfile } from "../utills/PublicCompanyProfile";
 import { idFunction } from "../utills/LoggedInUserID";
 import { message } from "antd";
+import { SeekerAppliedJobs } from "../utills/SeekerAppliedJobs";
 const SingleJobPage = () => {
   const loggedInUserID = idFunction();
   const companyInfo = CompanyProfile();
   const publicCompanyInfo = PublicCompanyProfile();
+  const alreadyAppliedJob = SeekerAppliedJobs();
+
   const [isLoading, setIsLoading] = useState(false);
   const { jobID } = useParams();
   const [singleJobDetails, setSingleJobDetails] = useState([]); // Change initial state to null
@@ -28,7 +31,6 @@ const SingleJobPage = () => {
   );
   let loggedInUserType = loggedInUser.doUserExist.usertype;
   const JobsDetails = async () => {
-   
     setIsLoading(true);
     try {
       const getJobsDetails = await Api.get(`/getSingleJobs/${jobID}`);
@@ -101,7 +103,8 @@ const SingleJobPage = () => {
     }
     // console.log(applyJobID,loggedInUserID)
   };
-
+  const checkApplied = alreadyAppliedJob.includes(jobID);
+console.log(checkApplied)
   return (
     <>
       {isLoading ? (
@@ -252,14 +255,26 @@ const SingleJobPage = () => {
                 </h5>
               </div>
             </div>
-            {loggedInUserType !=="provider" && 
-            <button
-              className="applyBtn"
-              onClick={() => handleApplyClick(singleJobDetails?._id)}
-            >
-              Apply Now
-            </button>
-}
+            {checkApplied ? (
+              <button
+                className="appliedBtn"
+                disabled={true}
+              >
+                Already Applied
+              </button>
+            ) : (
+              <>
+                {(loggedInUserType !== "provider" && loggedInUserType!== "admin") && (
+                  <button
+                    className="applyBtn"
+                    onClick={() => handleApplyClick(singleJobDetails?._id)}
+                  >
+                    Apply Now
+                  </button>
+                )}
+              </>
+            )}
+
             <h5 className="subTitleJob">Job Description</h5>
             <div className="jobdescriptionsingle">
               {jobData.myTextarea !== null &&

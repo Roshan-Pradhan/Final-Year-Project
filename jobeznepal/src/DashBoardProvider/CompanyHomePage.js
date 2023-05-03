@@ -6,21 +6,26 @@ import Api from "../utills/Api";
 import { Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
-
+import {
+  MailOutlined,
+  PhoneOutlined,
+  PushpinOutlined,
+} from "@ant-design/icons";
 const CompanyHomePage = () => {
   const navigate = useNavigate();
   const [jobID, setJobID] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const [applicantInfo, setApplicantInfo] = useState([]);
+  const [userExtraProfile, setUserExtraProfile] = useState()
   const [userEduDetails, setUserEduDetails] = useState("");
-const [appliedJobDetails, setAppliedJobDetails] = useState([])
-const [resumeDataSkills, setResumeDataSkills] = useState([]);
+  const [appliedJobDetails, setAppliedJobDetails] = useState([]);
+  const [resumeDataSkills, setResumeDataSkills] = useState([]);
 
-const [modelOpen, setModelOpen] = useState(false)
+  const [modelOpen, setModelOpen] = useState(false);
   const applicantsDatas = GetApplicants();
   const activeCompany = CompanyProfile();
-  
+
   const activeCompanyApplicants = applicantsDatas?.filter(
     (item) => item.appliedCompany === activeCompany?._id
   );
@@ -63,54 +68,60 @@ const [modelOpen, setModelOpen] = useState(false)
       console.log(error);
     }
   };
-  
 
-  
-  const  handleClickID = async(userID)=>{
-    const extractUser = activeCompanyApplicants.filter((item)=>item.applicantID===userID)
-    const extractAppliedJobID = extractUser.map((item)=>item.appliedJobID)
+  const handleClickID = async (userID) => {
+    const extractUser = activeCompanyApplicants.filter(
+      (item) => item.applicantID === userID
+    );
+    const extractAppliedJobID = extractUser.map((item) => item.appliedJobID);
     setIsLoading(true);
-        try {
-          const getJobDetails = extractAppliedJobID.map((appliedJobID) =>
-            Api.get(`/getAppliedJob/${appliedJobID}`)
-          );
-          const fetchedData = await Promise.all(getJobDetails);
-          const gotData = fetchedData.map((result) => result.data.applicants);
-          setAppliedJobDetails(gotData)
-        //   setApplicantInfo(gotData);
-        console.log(gotData)
-        } catch (error) {
-          console.log(error);
-        }
-            try {
-              const getData = await Api.get(`/getUserEducation/${userID}`);
-              console.log(getData.data.finduser)
-              setUserEduDetails(getData.data.finduser);
-            } catch (error) {
-              console.log(error);
-            }
-            try {
-                const getResumeData = await Api.get(`userResumeData/${userID}`);
-                setResumeDataSkills(JSON.parse(getResumeData.data.finduserResume.skills));
-              } catch (error) {
-                console.log(error);
-              }
-        setModelOpen(true)
-        setIsLoading(false);
 
-  }
+    try {
+      const getJobDetails = extractAppliedJobID.map((appliedJobID) =>
+        Api.get(`/getAppliedJob/${appliedJobID}`)
+      );
+      const fetchedData = await Promise.all(getJobDetails);
+      const gotData = fetchedData.map((result) => result.data.applicants);
+      setAppliedJobDetails(gotData);
+      //   setApplicantInfo(gotData);
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const getData = await Api.get(`/userExtraInfo/${userID}`);
+      setUserExtraProfile(getData.data.finduserExtraData);
+    } catch (error) {
+      console.log(error);
+      
+    }
 
-  const handleTitleClick =(jobID)=>{
+    try {
+      const getData = await Api.get(`/getUserEducation/${userID}`);
+      console.log(getData.data.finduser);
+      setUserEduDetails(getData.data.finduser);
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const getResumeData = await Api.get(`userResumeData/${userID}`);
+      setResumeDataSkills(JSON.parse(getResumeData.data.finduserResume.skills));
+    } catch (error) {
+      console.log(error);
+    }
+    setModelOpen(true);
+    setIsLoading(false);
+  };
+
+  const handleTitleClick = (jobID) => {
     setJobID(jobID);
-    
+
     navigate(`/singleJobPage/${jobID}`);
-  }
+  };
 
   useEffect(() => {
     fetchApplicantsDetails();
-  }, [applicantsDatas,activeCompany]);
+  }, [applicantsDatas, activeCompany]);
 
-  console.log(applicantInfo);
 
   return (
     <>
@@ -129,97 +140,139 @@ const [modelOpen, setModelOpen] = useState(false)
       <div className="applicantData">
         {applicantInfo.map((subArray) =>
           subArray.map((obj) => (
-            <div key={obj.loggedInUserID} className="applicantSubDIv">
-              <h3 onClick={()=>handleClickID(obj.loggedInUserID)} >{obj.userName}</h3>
-              <p>{obj.userEmail}</p>
-              <p>{obj.userNumber}</p>
-              <div className="location">
-                <p>{obj.selectedValueProvince},</p>
-                <p>{obj.selectedValueDistrict},</p>
-                <p>{obj.selectedValueStreet}</p>
+            <>
+              <div className="applicantmaindiv" key={obj._id}>
+                <div className="applicantImage">
+                  <img
+                    src={`http://localhost:8001${obj.profileImg}`}
+                    alt={obj.userName}
+                    className="applicantImg"
+                  />
+                </div>
+                <div key={obj.loggedInUserID} className="applicantSubDIv">
+                  <h3 onClick={() => handleClickID(obj.loggedInUserID)}>
+                    {obj.userName}
+                  </h3>
+                  <p>{obj.userEmail}</p>
+                  <p>{obj.userNumber}</p>
+                  <div className="location">
+                    <p>{obj.selectedValueProvince},</p>
+                    <p>{obj.selectedValueDistrict},</p>
+                    <p>{obj.selectedValueStreet}</p>
+                  </div>
+                </div>
               </div>
-            </div>
+            </>
           ))
         )}
-        </div>
-{isLoading ? (
-              <ReactLoading className="customReactLoadingApplied" type="cubes" color="red"/>
-            ):(
+      </div>
+      {isLoading ? (
+        <ReactLoading
+          className="customReactLoadingApplied"
+          type="cubes"
+          color="red"
+        />
+      ) : (
         <Modal
-        title="Job Applicants Details"
-        centered
-        maskClosable={true}
-        open={modelOpen}
-        onCancel={()=>setModelOpen(false)}
-        cancelText="Cancel"
-        className="appliedModal"
+          title="Job Applicants Details"
+          centered
+          maskClosable={true}
+          open={modelOpen}
+          onCancel={() => setModelOpen(false)}
+          cancelText="Cancel"
+          className="appliedModal"
         >
-            <>
-            <p className="appliedFor">Applied For:
-            <span>
-            {appliedJobDetails.length} Jobs
-            </span>
+          <>
+            <p className="appliedFor">
+              Applied For:
+              <span>{appliedJobDetails.length} Jobs</span>
             </p>
-            {appliedJobDetails.map((item)=>(
-                <div className="appliedJObs">
-                    {item.jobsData.map((jobsDataItem,index)=>{
-              const validjobData = JSON.parse(jobsDataItem);
-              return(
-                <div key={item._id}>
-                     <h1 className="MainTitle" onClick={()=>handleTitleClick(item._id)}>{validjobData.companyName}</h1>
-                </div>
-              )
-
-                    })}
-                </div>
-            ))}
-            <br />
-             <p className="appliedFor">Applicants Qualification:
-            </p>
-
-            {userEduDetails.length !==0 && (
-                
-        <>
-          <div className="educationDiv">
-            {userEduDetails.userEducation.map((key, index) => (
-              <div className="educationData" key={index}>
-                <fieldset>
-                  <legend>Qualification</legend>
-                  <h1 className="educationItem">
-                    {key.Qualification.toUpperCase()}
-                  </h1>
-                </fieldset>
-                <fieldset>
-                  <legend>Course</legend>
-                  <h1 className="educationItem"> {key.Course.toUpperCase()}</h1>
-                </fieldset>
-               
+            {appliedJobDetails.map((item,index) => (
+              <div className="appliedJObs" key={index} >
+                {item.jobsData.map((jobsDataItem, index) => {
+                  const validjobData = JSON.parse(jobsDataItem);
+                  return (
+                    <div key={item._id}>
+                      <h1
+                        className="MainTitle"
+                        onClick={() => handleTitleClick(item._id)}
+                      >
+                        {validjobData.companyName}
+                      </h1>
+                    </div>
+                  );
+                })}
               </div>
             ))}
-          </div>
-        </>
-      )}
-      <br />
-       <p className="appliedFor">Applicants Skills:
-            </p>
-      {resumeDataSkills.length !==0 &&(
-        <div className="appliedResume">
-            {resumeDataSkills.map((item,index)=>(
-                <div className="applicantsskills">
-                    <h3>{item.name.toUpperCase()}</h3>
+            <br />
+            <p className="appliedFor">Applicants Details:</p>
+            <div className="applicantData">
+                  <>
+                    <div className="personalDetails">
+                      <h5>
+                        <MailOutlined className="customIcons" />
+                        {userExtraProfile?.userEmail}
+                      </h5>
+                      <h5>
+                        <PhoneOutlined className="customIcons" />
+                        {userExtraProfile?.userNumber}
+                      </h5>
+                      <div className="address">
+                        <h5>
+                          <PushpinOutlined className="customIcons" />
+                          Province{" "}
+                          {userExtraProfile?.selectedValueProvince}, {}{" "}
+                        </h5>
+                        <h5>
+                          {" "}
+                          {userExtraProfile?.selectedValueDistrict}
+                        </h5>
+                        <h5>,{userExtraProfile?.selectedValueStreet}</h5>
+                      </div>
+                    </div>
+                  </>
+            </div>
+            <br />
+            <p className="appliedFor">Applicants Qualification:</p>
+
+            {userEduDetails.length !== 0 && (
+              <>
+                <div className="educationDiv">
+                  {userEduDetails.userEducation.map((key, index) => (
+                    <div className="educationData" key={index}>
+                      <fieldset>
+                        <legend>Qualification</legend>
+                        <h1 className="educationItem">
+                          {key.Qualification.toUpperCase()}
+                        </h1>
+                      </fieldset>
+                      <fieldset>
+                        <legend>Course</legend>
+                        <h1 className="educationItem">
+                          {" "}
+                          {key.Course.toUpperCase()}
+                        </h1>
+                      </fieldset>
+                    </div>
+                  ))}
                 </div>
-            ))}
-        </div>
-      )}
-            
-            </>
-
-
+              </>
+            )}
+            <br />
+            <p className="appliedFor">Applicants Skills:</p>
+            {resumeDataSkills.length !== 0 && (
+              <div className="appliedResume">
+                {resumeDataSkills.map((item, index) => (
+                  <div className="applicantsskills" key={index}>
+                    <h3>{item.name.toUpperCase()}</h3>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
         </Modal>
-        )}
-        <div className="adjust" style={{marginBottom:"13%"}}>
-
-        </div>
+      )}
+      <div className="adjust" style={{ marginBottom: "13%" }}></div>
     </>
   );
 };

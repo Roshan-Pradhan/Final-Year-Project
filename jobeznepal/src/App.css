@@ -3,6 +3,10 @@
   padding: 0;
   font-family: "Poppins", sans-serif !important;
   overflow-x: hidden;
+ 
+}
+body{
+  min-height: 100vh;
 }
 label {
   font-size: 16px;
@@ -31,6 +35,11 @@ button {
 fieldset {
   height: auto !important;
 }
+:where(.css-dev-only-do-not-override-htwhyh).ant-tooltip  {
+  overflow: visible !important;
+ 
+}
+
 @media (max-width: 767px) {
   .registerPage {
     display: flex;

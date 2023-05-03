@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import {
-  CheckCircleOutlined,
+    CheckCircleOutlined,
+    CloseCircleOutlined,
     DeploymentUnitOutlined,
     DollarCircleOutlined,
+    EditOutlined,
     FieldTimeOutlined,
     MailOutlined,
     PhoneOutlined,
@@ -10,8 +12,10 @@ import {
     UsergroupAddOutlined,
   } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { Tooltip, message } from 'antd';
+import Api from '../utills/Api';
 
-const AllJobsPosts = ({totalJobs}) => {
+const AdminJobList = ({totalJobs}) => {
     const [jobID, setJobID] = useState(null);
     const navigate = useNavigate();
 
@@ -19,16 +23,24 @@ const AllJobsPosts = ({totalJobs}) => {
         setJobID(jobID);
         navigate(`/singleJobPage/${jobID}`);
       };
+
+      const handleEditClick =async (jobID)=>{
+        try {
+            const updateApprove = await Api.put(`/approveJob/${jobID}`)
+            message.success(updateApprove.data.message)
+            window.location.reload()
+        } catch (error) {
+            console.log(error)
+        }
+        }
+        
   return (
     <>
-    {totalJobs.length !==0  ?  (
+    {totalJobs.length !==0 ? (
   <div className="jobs">
   <h4 className="hrLines">Current Job Openings</h4>
   <div className="postedJobsDetails">
-
     {totalJobs?.map((item, index) => (
-      <>
-      {item.isApproved && 
       <div className="singleJobDetails" key={index}>
         {/* -------------------------------- jobsData----------------------------------------- */}
         {item.jobsData.map((jobsDataItem, index) => {
@@ -42,9 +54,18 @@ const AllJobsPosts = ({totalJobs}) => {
               >
                 {validjobData.companyName}
               </h1>
-              <div className="titlebtns">
-                    <h5 className='trueApproved'>Verified <CheckCircleOutlined /> </h5>
+              {item.isApproved ? (
+                <div className="titlebtns">
+                    <h5 className='trueApproved'>Approved <CheckCircleOutlined /> </h5>
                 </div>
+              ):(
+                <div className="titlebtns">
+                <Tooltip title="Approved Job" className='customToolTip'>
+                <button onClick={()=>handleEditClick(item._id)}><CheckCircleOutlined /></button>
+                </Tooltip>
+                </div>
+              )}
+             
                 </div>
               <div className="jobaddress">
                 <h5 className="subTitle">
@@ -119,8 +140,6 @@ const AllJobsPosts = ({totalJobs}) => {
           </h5>
         </div>
       </div>
-}
-</>
     ))}
   </div>
 </div>
@@ -138,4 +157,4 @@ const AllJobsPosts = ({totalJobs}) => {
   )
 }
 
-export default AllJobsPosts
+export default AdminJobList

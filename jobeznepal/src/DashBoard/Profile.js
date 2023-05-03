@@ -144,6 +144,7 @@ const handleDate =(e)=>{
          height: "200px",
          borderRadius: "50%",
          border: "solid #F13C20",
+         objectFit:"cover",
        }}
        alt="img"
      />

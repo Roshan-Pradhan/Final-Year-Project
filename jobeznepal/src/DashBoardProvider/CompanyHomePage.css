@@ -53,3 +53,26 @@
     border-radius: 8px;
     color: white;
 }
+.applicantData{
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+    flex-wrap: wrap;
+    margin-left: 20px;
+
+}
+.applicantmaindiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #EFE2BA;
+    padding: 10px;
+    border-radius: 8px;
+}
+.applicantImg{
+    width: 150px; 
+    height: 150px;
+    object-fit: cover; 
+    border-radius: 50%;
+}

@@ -9,8 +9,7 @@
 .singlePageBG{
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    /* object-position: top; */
+    object-fit:cover;
     vertical-align: middle;
 }
 .singlePagepostedJOb{
@@ -37,4 +36,9 @@
 }
 .MainTitle{
     font-size: 22px;
+}
+.appliedBtn{
+    width: 150px;
+    padding: 10px ;
+    cursor: not-allowed;
 }

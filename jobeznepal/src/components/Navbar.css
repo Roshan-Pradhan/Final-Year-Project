@@ -93,3 +93,27 @@
     }
    
   }
+  .customeModel{
+    width: 200px;
+    position: absolute;
+    /* top: 55px; */
+    right: 60px;
+    overflow-x: hidden;
+    padding: 10px;
+    background-color: white;
+    animation:  ease-in 0.2s forwards customModelBox;
+    /* offset-x | offset-y | blur-radius | spread-radius | color */
+box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  }
+  @keyframes customModelBox {
+    from{top:0px}
+    to{top:55px}
+    
+  }
+  .customeModel h4{
+    font-size: 17px;
+  }
+
+  .trueApproved{
+    color: green;
+  }

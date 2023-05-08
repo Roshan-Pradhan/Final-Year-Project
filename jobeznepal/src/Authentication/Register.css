@@ -64,3 +64,17 @@ margin-bottom: 10px;
 .registerFormItem{
     height: 30% !important;
 }
+.notfound{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.notallowed{
+    color: #F13C20;
+    font-size: 35px;
+}
+.notfound h3{
+    color: #F13C20;
+
+}

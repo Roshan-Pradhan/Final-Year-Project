@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import ReactLoading from "react-loading";
 import { SeekerAppliedJobs } from "../utills/SeekerAppliedJobs";
+import NewTry from "./AlgoSkills";
 
 const JobBasedOnLocation = ({ cosineSimilarity,recmndTitle }) => {
   const navigate = useNavigate();
@@ -47,9 +48,6 @@ const JobBasedOnLocation = ({ cosineSimilarity,recmndTitle }) => {
       setLoading(false);
     };
   }
-
-
-
   useEffect(() => {
     fetchRecommendedJobs();
   }, [ cosineSimilarity]);
@@ -58,7 +56,6 @@ const JobBasedOnLocation = ({ cosineSimilarity,recmndTitle }) => {
     setJobID(jobID);
     navigate(`/singleJobPage/${jobID}`);
   };
-
   return (
     <>
       {loading ? (

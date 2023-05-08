@@ -735,6 +735,7 @@ export const approveJob = async (req, res) => {
     res.status(500).json({ message: "Error approving job" });
   }
 };
+
 export const getOpenedJobAdmin = async (req, res) => {
   let findPostedJobs;
   try {
@@ -747,3 +748,27 @@ export const getOpenedJobAdmin = async (req, res) => {
   }
   return res.status(200).json({ findPostedJobs });
 };
+
+export const forgetPW = async (req, res) => {
+  const { email, password } = req.body;
+  const passwordRegex = /^(?=.*\d).{8,}$/;
+  const doUserExist = await registeredUser.findOne({ email }).exec();
+
+  if (!doUserExist)
+  return res.status(400).json({ Message: "Sorry! You are not registered" });
+
+
+  if (!passwordRegex.test(password)) {
+    return res.status(400).json({ Message: "Invalid Password" });
+  }
+
+  const hashedpassword = bcrypt.hashSync(password);
+
+  try {
+  const updatePassword = await registeredUser.updateOne({email:email},{$set:{password:hashedpassword}})
+  res.status(200).json({ Message: "Password changed successfully" });
+  } catch (error) {
+    return res.status(400).json({ Message: "Unable to update password" });
+  }
+    
+  }

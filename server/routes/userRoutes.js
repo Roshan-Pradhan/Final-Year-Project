@@ -15,11 +15,14 @@ const upload = multer({ storage: storage })
 const router = express.Router();
 
 
-const {Register, Login, verifyToken, getUser, userMoreInfo, getUserExtraInfo, verifyEMail, educationDetails, getUserEducation, userResume, userResumeData, getCompanyExtraInfo, companyMoreInfo, addJobs, getPostedJobs, getSingleJobs, getOpenedJob, publicCompanyExtraInfo, getRcmndJobs, getUserSkills, getUserQualification, updateProfile, updateCompanyProfile, getPostedJobswithID, editSinglejob, deleteSinglejob, appliedUserDetails, allApplicants, applicantDatWithID, getAppliedJob, approveJob, getOpenedJobAdmin} = require ("../controllers/userController")
+const {Register, Login, verifyToken, getUser, userMoreInfo, getUserExtraInfo, verifyEMail, educationDetails, getUserEducation, userResume, userResumeData, getCompanyExtraInfo, companyMoreInfo, addJobs, getPostedJobs, getSingleJobs, getOpenedJob, publicCompanyExtraInfo, getRcmndJobs, getUserSkills, getUserQualification, updateProfile, updateCompanyProfile, getPostedJobswithID, editSinglejob, deleteSinglejob, appliedUserDetails, allApplicants, applicantDatWithID, getAppliedJob, approveJob, getOpenedJobAdmin, forgetPW} = require ("../controllers/userController")
 
 router.post("/register",Register)
 router.get("/users/:id/verify/:token",verifyEMail)
 router.post("/login",Login)
+
+router.put("/forgetPW",forgetPW)
+
 router.get("/user/:loggedInUserID",getUser)
 router.post("/userMoreInfo",upload.single('profileImg'),userMoreInfo)
 router.get("/userExtraInfo/:loggedInUserID",getUserExtraInfo)

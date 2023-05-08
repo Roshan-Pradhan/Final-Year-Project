@@ -292,8 +292,8 @@ const handleQualificationSelection =(e)=>{
               >
                 <option value="slc/see">SLC/SEE</option>
                 <option value="10+2">10+2</option>
-                <option value="Bachelors">Bachelors</option>
-                <option value="Masters">Masters</option>
+                <option value="Bachelor">Bachelor</option>
+                <option value="Master">Master</option>
                 <option value="None">None</option>
               </select>
             </fieldset>

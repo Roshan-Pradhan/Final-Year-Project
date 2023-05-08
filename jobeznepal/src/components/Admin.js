@@ -21,13 +21,8 @@ const Admin = () => {
   };
   useEffect(()=>{
     fetchallJobsData()
-  },[])
+  },[allOpenJobs])
 
-  useEffect(() => {
-    setTotalJobs(allOpenJobs);
-  }, [allOpenJobs]);
-
-  console.log(totalJobs.map(item => item.isApproved))
   return (
     <>
      <AdminJobList  totalJobs={totalJobs}/>

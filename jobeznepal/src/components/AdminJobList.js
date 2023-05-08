@@ -60,7 +60,7 @@ const AdminJobList = ({totalJobs}) => {
                 </div>
               ):(
                 <div className="titlebtns">
-                <Tooltip title="Approved Job" className='customToolTip'>
+                <Tooltip title="Approve Job" className='customToolTip'>
                 <button onClick={()=>handleEditClick(item._id)}><CheckCircleOutlined /></button>
                 </Tooltip>
                 </div>

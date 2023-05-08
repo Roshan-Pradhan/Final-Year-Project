@@ -15,6 +15,9 @@ import CompanyHomePage from "./DashBoardProvider/CompanyHomePage";
 import FooterGlobal from "./components/FooterGlobal";
 import AppliedJobs from "./DashBoard/AppliedJobs";
 import Admin from "./components/Admin";
+import ForgetPW from "./Authentication/ForgetPW";
+import Unauthorized from "./Authentication/404";
+
 const App = () => {
   const [homeData, setHomeData] = useState("");
   const [fromLogin, setFromLogin] = useState("");
@@ -40,16 +43,18 @@ const App = () => {
       )}
 
       <Routes>
-      <Route
-              path="/"
-              element={isLoggedIn === "true" ? <Home /> : <LandingPage />}
-            >
-              {" "}
-            </Route>
+        <Route
+          path="/"
+          element={isLoggedIn === "true" ? <Home /> : <LandingPage />}
+        ></Route>
         <Route path="/singleJobPage" element={<LandingPage />}></Route>
+        <Route path="/forgetPassword" element={<ForgetPW />}></Route>
+        <Route
+          path="/:any"
+          element={isLoggedIn === "true" ? <Home /> : <Unauthorized />}
+        ></Route>
 
-        <Route exact path="/register" element={<Register />}>
-        </Route>
+        <Route exact path="/register" element={<Register />}></Route>
         <Route
           exact
           path="/login"
@@ -65,10 +70,9 @@ const App = () => {
         {loggedInUserType === "admin" && (
           <>
             <Route
-              path="/userProfile"
+              path="/listedJobs"
               element={isLoggedIn === "true" ? <Admin /> : <LandingPage />}
-            >
-            </Route>
+            ></Route>
           </>
         )}
 
@@ -151,7 +155,9 @@ const App = () => {
           </>
         )}
       </Routes>
-      {(isLoggedIn === "true" && loggedInUserType !=="admin") && <FooterGlobal />}
+      {isLoggedIn === "true" && loggedInUserType !== "admin" && (
+        <FooterGlobal />
+      )}
     </BrowserRouter>
   );
 };

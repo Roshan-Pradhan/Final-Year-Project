@@ -113,10 +113,12 @@ console.log(splituserEducation)
   });
 
   console.log(cosineSimilarity);
+const calculateScore = cosineSimilarity.filter(item=>item.similarity>0.4)
+
 
     return (
       <>
-      <JobBasedOnLocation recmndTitle={"Recommended For You Based On Your Qualification"} cosineSimilarity={cosineSimilarity} />
+      <JobBasedOnLocation recmndTitle={"Recommended For You Based On Your Qualification"} cosineSimilarity={calculateScore} />
       </>
     )
 };

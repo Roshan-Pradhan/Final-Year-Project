@@ -12,7 +12,7 @@ const AlgorithmKeySkills = () => {
   const jobKeySkills = allJobsDetails.map((item) => {
     const getKeySkills = JSON.parse(item.Keyskills);
     const skillNames = getKeySkills.map((skill) => skill.name);
-    const skillsString = skillNames.join(", ");
+    const skillsString = skillNames.join(", ").toLowerCase();
     return { id: item._id, skills: skillsString };
   });
   // console.log(jobKeySkills);
@@ -22,16 +22,14 @@ const AlgorithmKeySkills = () => {
 const userSkills = LoggedUserSkillsDetails?.skills;
 const stringSkills = JSON.parse(userSkills ? userSkills : null)
 const joinSkills = stringSkills?.map((skill) => skill.name);
-const finaluserSkills = joinSkills?.join(", ");
+const finaluserSkills = joinSkills?.join(", ").toLowerCase();
 const splitfinaluserSkills = finaluserSkills?.split(",");
-console.log(splitfinaluserSkills)
+// console.log(splitfinaluserSkills)
 //--------------------------------------------------------------------------------
-
-
-
 
   const termFrequency = jobKeySkills.map((document) => {
     const words = document.skills.split(",");
+    // console.log(words)
     const counts = {};
     const totalWords = words.length;
 
@@ -80,6 +78,7 @@ console.log(splitfinaluserSkills)
   });
 
   const cosineSimilarity = tfIdf.map((document) => {
+    
     const docVector = splitfinaluserSkills?.map((w) => {
       const tfIdfValue = document.tfidf[w] ? document.tfidf[w] : 0;
       return tfIdfValue;
@@ -99,7 +98,7 @@ console.log(splitfinaluserSkills)
       wordVector?.reduce((accumulator, currentValue) => accumulator + currentValue ** 2, 0)
     );
 
-    let similarity = dotProduct / (magnitudeDoc * magnitudeWord);
+    let similarity = dotProduct / ( magnitudeDoc * magnitudeWord);
     if (isNaN(similarity)) {
       similarity = 0;
     }

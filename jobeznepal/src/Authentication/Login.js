@@ -29,8 +29,12 @@ const Login = ({setFromLogin}) => {
            JSON.stringify(userLogin?.data)
          );
          window.localStorage.setItem("isLoggedIn",true);
+         if(userLogin.data.doUserExist.usertype === "admin"){
+         window.location.href = "./listedJobs";
+         }
+         else{
          window.location.href = "./userProfile";
-
+         }
       }
     } catch (error) {
       message.error(error.response.data)
@@ -96,6 +100,7 @@ const Login = ({setFromLogin}) => {
         <Button type="primary" htmlType="submit" className="login-form-button">
           Login
         </Button>
+        <Link to="/forgetPassword">Forget Password?</Link>
       </Form.Item>
             )}
     </Form>

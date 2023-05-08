@@ -129,7 +129,7 @@ const Academic = () => {
                             <Select.Option value="slc/see">
                               SLC/SEE
                             </Select.Option>
-                            <Select.Option value="+2">+2</Select.Option>
+                            <Select.Option value="10+2">+2</Select.Option>
                             <Select.Option value="Bachelor">
                               Bachelor
                             </Select.Option>

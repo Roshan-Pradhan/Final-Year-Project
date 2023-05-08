@@ -8,7 +8,6 @@ import { SeekerAppliedJobs } from "../utills/SeekerAppliedJobs";
 const AllJobs = () => {
   const allOpenJobs = AllOpenedJobs();
   const alreadyAppliedJob = SeekerAppliedJobs();
-
   const [totalJobs, setTotalJobs] = useState([]);
   const [activeHeading, setActiveHeading] = useState(0);
   const [showChipsLocation, setShowChipsLocation] = useState(false)

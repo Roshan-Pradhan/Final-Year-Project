@@ -228,14 +228,14 @@ const Navbar = ({ homeData, companyInfo, loggedInUserType }) => {
         <>
           <div className="MainBar">
             <div className="LogoBar">
-              <Link to="/" className="LogoBarItems">
+              <Link to="/listedJobs" className="LogoBarItems">
                 <FontAwesomeIcon icon={faMagnifyingGlassArrowRight} size="xl" />
                 <h5>JobEzNepal</h5>
               </Link>
             </div>
             <div className="MenuBar ">
               <NavLink
-                to="/userProfile"
+                to="/listedJobs"
                 className="MenuHome"
                 style={({ isActive }) =>
                   isActive
